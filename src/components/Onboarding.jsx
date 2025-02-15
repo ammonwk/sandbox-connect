@@ -11,6 +11,8 @@ function Onboarding() {
   });
   const [hoursPerWeek, setHoursPerWeek] = useState(40);
   const [situation, setSituation] = useState(50);
+  const [openSection, setOpenSection] = useState('current');
+  const [isValid, setIsValid] = useState(false);
   const navigate = useNavigate();
 
   const scrollToTop = () => {
@@ -22,18 +24,33 @@ function Onboarding() {
     }, 100);
   };
 
+  const validateSkills = () => {
+    const hasCurrentSkill = selectedSkills.current.length >= 1;
+    const hasTeammateSkill = selectedSkills.teammates.length >= 1;
+    setIsValid(hasCurrentSkill && hasTeammateSkill);
+  };
+
   const handleSkillSelection = (category, skill) => {
     const current = selectedSkills[category];
     const MAX_SKILLS = 5;
-
-    setSelectedSkills(prev => ({
-      ...prev,
-      [category]: current.includes(skill)
-        ? current.filter(s => s !== skill)
-        : current.length < MAX_SKILLS 
-          ? [...current, skill]
-          : current
-    }));
+  
+    setSelectedSkills(prev => {
+      const updated = {
+        ...prev,
+        [category]: current.includes(skill)
+          ? current.filter(s => s !== skill)
+          : current.length < MAX_SKILLS 
+            ? [...current, skill]
+            : current
+      };
+      // Validate after updating
+      setTimeout(() => {
+        const hasCurrentSkill = updated.current.length >= 1;
+        const hasTeammateSkill = updated.teammates.length >= 1;
+        setIsValid(hasCurrentSkill && hasTeammateSkill);
+      }, 0);
+      return updated;
+    });
   };
 
   const getSituationText = (value) => {
@@ -66,7 +83,7 @@ function Onboarding() {
               Let's get your profile filled out...
             </p>
             <div className="inline-block bg-gray-100 text-black px-4 py-2 rounded-full text-sm">
-              Est. time: 3 min
+              This will take about: 3 minutes
             </div>
           </div>
         )}
@@ -78,58 +95,82 @@ function Onboarding() {
             </h2>
             
             {['current', 'toLearn', 'teammates'].map((category) => (
-              <div className="bg-gray-50 rounded-xl p-6 hover:shadow-md transition-shadow duration-200" key={category}>
-                <div className="text-xl font-semibold text-black mb-6">
-                  {category === 'current' && "What skills do you already have confidence in?"}
-                  {category === 'toLearn' && "What skills do you hope to learn while in Sandbox?"}
-                  {category === 'teammates' && "What skills do you hope your teammates will have?"}
-                </div>
+              <div className="border border-gray-200 rounded-xl overflow-hidden" key={category}>
+                <button
+                  onClick={() => setOpenSection(openSection === category ? null : category)}
+                  className="w-full px-6 py-4 flex justify-between items-center bg-gray-50 hover:bg-gray-100"
+                >
+                  <span className="text-xl font-semibold text-black">
+                    {category === 'current' && "Skills you already have"}
+                    {category === 'toLearn' && "Skills you want to learn"}
+                    {category === 'teammates' && "Skills you want in teammates"}
+                  </span>
+                  <span className="text-sm text-gray-600">
+                    {selectedSkills[category].length}/5 selected
+                  </span>
+                  <svg
+                    className={`w-6 h-6 transform transition-transform ${
+                      openSection === category ? 'rotate-180' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
                 
-                <div className="mt-6 space-y-6">
-                  <div>
-                    <h4 className="text-lg font-medium text-black mb-4">Development Skills</h4>
-                    <div className="flex flex-wrap gap-3">
-                      {SKILLS.dev.map((skill) => (
-                        <button
-                          key={skill}
-                          onClick={() => handleSkillSelection(category, skill)}
-                          className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
-                            selectedSkills[category].includes(skill)
-                              ? 'bg-indigo-600 text-white'
-                              : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
-                          }`}
-                        >
-                          {skill}
-                        </button>
-                      ))}
+                {openSection === category && (
+                  <div className="p-6 bg-white">
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="text-lg font-medium text-black mb-4">Development Skills</h4>
+                        <div className="flex flex-wrap gap-3">
+                          {SKILLS.dev.map((skill) => (
+                            <button
+                              key={skill}
+                              onClick={() => handleSkillSelection(category, skill)}
+                              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                                selectedSkills[category].includes(skill)
+                                  ? 'bg-indigo-600 text-white'
+                                  : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                              }`}
+                            >
+                              {skill}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h4 className="text-lg font-medium text-black mb-4">Business Skills</h4>
+                        <div className="flex flex-wrap gap-3">
+                          {SKILLS.business.map((skill) => (
+                            <button
+                              key={skill}
+                              onClick={() => handleSkillSelection(category, skill)}
+                              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                                selectedSkills[category].includes(skill)
+                                  ? 'bg-emerald-600 text-white'
+                                  : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                              }`}
+                            >
+                              {skill}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  
-                  <div>
-                    <h4 className="text-lg font-medium text-black mb-4">Business Skills</h4>
-                    <div className="flex flex-wrap gap-3">
-                      {SKILLS.business.map((skill) => (
-                        <button
-                          key={skill}
-                          onClick={() => handleSkillSelection(category, skill)}
-                          className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
-                            selectedSkills[category].includes(skill)
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
-                          }`}
-                        >
-                          {skill}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-4 text-sm text-gray-600">
-                  Selected: {selectedSkills[category].length}/5 skills
-                </div>
+                )}
               </div>
             ))}
+            
+            {!isValid && (
+              <p className="text-red-600 text-sm">
+                Please select at least one current skill and one desired teammate skill to continue
+              </p>
+            )}
           </div>
         )}
 
@@ -201,13 +242,19 @@ function Onboarding() {
         <button
           onClick={() => {
             if (step < 3) {
+              if (step === 2 && !isValid) return;
               setStep(step + 1);
               scrollToTop();
             } else {
               navigate('/sandbox-headstart/dashboard');
             }
           }}
-          className={`${step > 1 ? 'w-2/3' : 'w-full'} bg-black text-white py-4 rounded-xl hover:bg-gray-900 transition-colors duration-200 text-lg font-medium`}
+          className={`${step > 1 ? 'w-2/3' : 'w-full'} ${
+            step === 2 && !isValid 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-black hover:bg-gray-900'
+          } text-white py-4 rounded-xl transition-colors duration-200 text-lg font-medium`}
+          disabled={step === 2 && !isValid}
         >
           {step === 3 ? 'Complete Profile' : 'Continue'}
         </button>
