@@ -1,4 +1,5 @@
 // UserCard.jsx
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SKILLS } from '../data/skills';
 
@@ -24,101 +25,111 @@ function UserCard({ user }) {
     return "text-red-700 bg-red-50 border-red-200";
   };
 
-  // Helper function to get first 3 items
-  const getFirst3 = (array) => array?.slice(0, 3) || [];
+  // Helper function to get first N items
+  const getFirstN = (array, n) => array?.slice(0, n) || [];
   const hasMore = (array, shown) => array?.length > shown;
 
+  const getTimeAgo = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
+    
+    if (diffInHours < 24) {
+      return `${diffInHours}h ago`;
+    } else {
+      const diffInDays = Math.floor(diffInHours / 24);
+      return `${diffInDays}d ago`;
+    }
+  };
+
   return (
-    <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden border border-gray-100">
-      <div className="p-6 relative"> {/* Added relative positioning */}
-        {/* Match percentage badge */}
-        <div className="absolute top-6 right-6">
-          <div className={`border rounded-full px-3 pt-0 ${getMatchColor(user.matchPercentage)}`}>
+    <div onClick={() => navigate(`/sandbox-headstart/profile/${user.id}`)} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100">
+      <div className="p-6">
+        {/* Top section with match & status */}
+        <div className="flex justify-between items-start mb-4">
+          <span className={`px-3 py-1 rounded-full text-sm ${statusStyles[user.status]}`}>
+            {statusText[user.status]}
+          </span>
+          <div className={`border rounded-full px-3 py-1 ${getMatchColor(user.matchPercentage)}`}>
             <span className="font-semibold text-sm">{user.matchPercentage}% Match</span>
           </div>
         </div>
 
-        <div onClick={() => navigate(`/sandbox-headstart/profile/${user.id}`)} className="flex items-center space-x-4">
-          <img
-            src={user.photo}
-            alt={user.name}
+        {/* Main profile section */}
+        <div className="flex items-center space-x-4 mb-4">
+          <img 
+            src={user.photo} 
+            alt={user.name} 
             className="w-16 h-16 rounded-full object-cover"
           />
           <div>
             <h3 className="text-xl font-semibold text-black">{user.name}</h3>
-            <p className="text-gray-600 text-sm mb-2 pt-2 line-clamp-2 min-h-[3em] leading-[1.5em]">
-              {user.intro}
-            </p>
-            <span className={`inline-block px-3 py-1 rounded-full text-sm ${statusStyles[user.status]}`}>
-              {statusText[user.status]}
-            </span>
+            <p className="text-gray-600 text-sm line-clamp-2">{user.intro}</p>
           </div>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-4">
-          {/* Current & Learning Skills */}
+        {/* Key details */}
+        <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+          <span>{user.hoursPerWeek}h/week</span>
+          <span>Active {getTimeAgo(user.lastActive)}</span>
+        </div>
+
+        {/* Skills Preview - Has/Needs comparison */}
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          {/* Has */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-2">Their Skills:</h4>
-            <div className="space-y-2">
-              {getFirst3([...user.currentSkills, ...(user.learningSkills || [])]).map((skill) => (
+            <h4 className="text-xs font-medium text-gray-500 mb-2">HAS</h4>
+            <div className="flex flex-wrap gap-1">
+              {getFirstN(user.currentSkills, 2).map((skill) => (
                 <span
                   key={skill}
-                  className={`group relative inline-block w-full px-3 py-1 text-sm rounded-full
-                    ${user.currentSkills.includes(skill)
-                      ? SKILLS.dev.includes(skill) 
-                        ? 'bg-indigo-100 text-indigo-700' 
-                        : 'bg-emerald-100 text-emerald-700'
-                      : SKILLS.dev.includes(skill)
-                        ? 'bg-indigo-50 text-indigo-700 border-2 border-dashed border-indigo-300'
-                        : 'bg-emerald-50 text-emerald-700 border-2 border-dashed border-emerald-300'
-                    }
-                  `}
+                  className={`px-2 py-1 text-sm rounded-full
+                    ${SKILLS.dev.includes(skill) 
+                      ? 'bg-indigo-100 text-indigo-700' 
+                      : 'bg-emerald-100 text-emerald-700'
+                    }`}
                 >
                   {skill}
-                  <span className="invisible group-hover:visible absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">
-                    {user.currentSkills.includes(skill) ? 'Has experience' : 'Willing to learn'}
-                  </span>
                 </span>
               ))}
-              {hasMore([...user.currentSkills, ...(user.learningSkills || [])], 3) && (
-                <span className="text-sm text-gray-500 italic">
-                  +{(user.currentSkills.length + (user.learningSkills?.length || 0)) - 3} more skills
-                </span>
+              {hasMore(user.currentSkills, 2) && (
+                <span className="text-xs text-gray-500">+{user.currentSkills.length - 2}</span>
               )}
             </div>
           </div>
-
-          {/* Desired Teammate Skills */}
+          
+          {/* Needs */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-2">Looking for teammates with:</h4>
-            <div className="space-y-2">
-              {getFirst3(user.desiredTeammateSkills).map((skill) => (
+            <h4 className="text-xs font-medium text-gray-500 mb-2">NEEDS</h4>
+            <div className="flex flex-wrap gap-1">
+              {getFirstN(user.desiredTeammateSkills, 2).map((skill) => (
                 <span
-                  key={`teammate-${skill}`}
-                  className={`inline-block w-full px-3 py-1 text-sm rounded-full 
+                  key={`desired-${skill}`}
+                  className={`px-2 py-1 text-sm rounded-full border
                     ${SKILLS.dev.includes(skill) 
-                      ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' 
-                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200'}
-                  `}
+                      ? 'border-indigo-200 text-indigo-700' 
+                      : 'border-emerald-200 text-emerald-700'
+                    }`}
                 >
                   {skill}
                 </span>
               ))}
-              {hasMore(user.desiredTeammateSkills, 3) && (
-                <span className="text-sm text-gray-500 italic">
-                  +{user.desiredTeammateSkills.length - 3} more skills
-                </span>
+              {hasMore(user.desiredTeammateSkills, 2) && (
+                <span className="text-xs text-gray-500">+{user.desiredTeammateSkills.length - 2}</span>
               )}
             </div>
           </div>
         </div>
 
-        <button 
-          onClick={() => navigate(`/sandbox-headstart/profile/${user.id}`)}
-          className="w-full mt-6 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
-        >
-          View Profile
-        </button>
+        {/* Actions */}
+        <div className="flex gap-2 mt-4">
+          <button 
+            onClick={() => navigate(`/sandbox-headstart/profile/${user.id}`)}
+            className="flex-1 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors"
+          >
+            View Profile
+          </button>
+        </div>
       </div>
     </div>
   );
