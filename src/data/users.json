@@ -14,6 +14,7 @@
         "phone": "(555) 123-4567",
         "slack": "@sarahchen"
       },
+      "matchPercentage": 93,
       "background": "Started as the design lead for Berkeley's health tech club. Previously interned at a mental health startup where I redesigned their patient onboarding flow. Working on an app to help students find and book mental health resources on campus."
     },
     {
@@ -30,6 +31,7 @@
         "phone": "(555) 234-5678",
         "slack": "@marcusdev"
       },
+      "matchPercentage": 12,
       "background": "Built a popular Chrome extension for students (10k+ users) that organizes Canvas assignments better. Did a summer internship at Microsoft. Now working on an AI study buddy that helps explain complex topics to students."
     },
     {
@@ -46,6 +48,7 @@
         "phone": "(555) 345-6789",
         "slack": "@alexthompson"
       },
+      "matchPercentage": 40,
       "background": "President of NYU's Fintech Club. Won second place at Penn's fintech hackathon. Interned at Robinhood last summer. Building a platform that helps college students start investing with as little as $5."
     }
   ]
