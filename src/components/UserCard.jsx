@@ -38,7 +38,7 @@ function UserCard({ user }) {
           </div>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div onClick={() => navigate(`/sandbox-headstart/profile/${user.id}`)} className="flex items-center space-x-4">
           <img
             src={user.photo}
             alt={user.name}
