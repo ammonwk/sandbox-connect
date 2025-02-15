@@ -22,7 +22,7 @@ function Dashboard() {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.intro.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.currentSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                         user.desiredSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
+                         user.desiredTeammateSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
     
     const matchesFilter = activeFilter === 'all' || user.status === activeFilter;
     
@@ -76,8 +76,8 @@ function Dashboard() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Search teammates..."
-                  className="w-64 pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  placeholder="Search teammates, skills, or keywords..."
+                  className="w-96 pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -135,9 +135,9 @@ function Dashboard() {
           <p className="text-gray-600 mt-2">Connect with potential teammates who complement your skills</p>
         </div>
 
-        {/* Filters */}
-        <div className="mb-8">
-          <div className="flex space-x-4 overflow-x-auto pb-2">
+        {/* Filters and Results Count */}
+        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="flex space-x-4 overflow-x-auto pb-2 md:pb-0">
             {filters.map((filter) => (
               <button
                 key={filter.id}
@@ -152,16 +152,13 @@ function Dashboard() {
               </button>
             ))}
           </div>
-        </div>
-
-        {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-gray-600">
+          
+          <p className="text-gray-600 mt-2 md:mt-0">
             Showing {filteredUsers.length} {filteredUsers.length === 1 ? 'result' : 'results'}
             {searchTerm && ` for "${searchTerm}"`}
           </p>
         </div>
-
+        
         {/* User Grid */}
         {filteredUsers.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
