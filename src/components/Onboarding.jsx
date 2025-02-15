@@ -10,7 +10,7 @@ function Onboarding() {
     teammates: []
   });
   const [hoursPerWeek, setHoursPerWeek] = useState(40);
-  const [situation, setSituation] = useState(50);
+  const [ideaStatus, setIdeaStatus] = useState('a few of them');
   const [openSection, setOpenSection] = useState('current');
   const [teamStatus, setTeamStatus] = useState('looking');
   const [isValid, setIsValid] = useState(false);
@@ -204,24 +204,28 @@ function Onboarding() {
             </div>
             <div>
               <h3 className="text-xl font-semibold text-black mb-6">
-                Do you have ideas, or do you need ideas?
+                Do you already have a startup idea in mind?
               </h3>
-              <div className="space-y-4">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={situation}
-                  onChange={(e) => setSituation(e.target.value)}
-                  className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-black"
-                />
-                <div className="flex justify-between text-sm font-medium">
-                  <span className="text-gray-900">Laser Focused</span>
-                  <span className="text-gray-900">Wide Open</span>
+              <div className="flex justify-center">
+                <div className="inline-flex rounded-full bg-gray-100 p-1">
+                  {[
+                    'One, set in stone', 
+                    'A few of them', 
+                    'No, open to ideas'
+                  ].map((status) => (
+                    <button
+                      key={status}
+                      onClick={() => setIdeaStatus(status.toLowerCase())}
+                      className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                        ideaStatus === status.toLowerCase()
+                          ? 'bg-black text-white'
+                          : 'text-gray-700 hover:text-gray-900'
+                      }`}
+                    >
+                      {status}
+                    </button>
+                  ))}
                 </div>
-                <p className="text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200 text-center">
-                  {getSituationText(situation)}
-                </p>
               </div>
             </div>
             <div>
