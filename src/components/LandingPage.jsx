@@ -34,12 +34,15 @@ function LandingPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 min-h-screen flex items-center">
+    <div className="container mx-auto px-4 min-h-screen flex items-center py-8 md:py-0">
       <div className="grid md:grid-cols-2 gap-16 w-full max-w-6xl mx-auto">
         <div className="space-y-12">
           <div>
             <h1 className="text-5xl font-bold text-black mb-4 leading-tight">
-              Welcome to <span className="text-black">Sandbox Headstart</span>
+              Welcome to
+              <div className="block bg-black text-white px-14 py-3 mt-3 -ml-1 transform -skew-x-12">
+                Sandbox Headstart
+              </div>
             </h1>
             <p className="text-gray-700 text-xl">
               Find your team better, faster.

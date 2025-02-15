@@ -12,6 +12,7 @@ function Onboarding() {
   const [hoursPerWeek, setHoursPerWeek] = useState(40);
   const [situation, setSituation] = useState(50);
   const [openSection, setOpenSection] = useState('current');
+  const [teamStatus, setTeamStatus] = useState('looking');
   const [isValid, setIsValid] = useState(false);
   const navigate = useNavigate();
 
@@ -221,6 +222,28 @@ function Onboarding() {
                 <p className="text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200 text-center">
                   {getSituationText(situation)}
                 </p>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-black mb-6">
+                What's your team situation?
+              </h3>
+              <div className="flex justify-center">
+                <div className="inline-flex rounded-full bg-gray-100 p-1">
+                  {['Looking', 'Found Some', 'Complete'].map((status) => (
+                    <button
+                      key={status}
+                      onClick={() => setTeamStatus(status.toLowerCase())}
+                      className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                        teamStatus === status.toLowerCase()
+                          ? 'bg-black text-white'
+                          : 'text-gray-700 hover:text-gray-900'
+                      }`}
+                    >
+                      {status}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
