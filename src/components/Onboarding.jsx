@@ -13,6 +13,15 @@ function Onboarding() {
   const [situation, setSituation] = useState(50);
   const navigate = useNavigate();
 
+  const scrollToTop = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
+  };
+
   const handleSkillSelection = (category, skill) => {
     const current = selectedSkills[category];
     const MAX_SKILLS = 5;
@@ -180,16 +189,23 @@ function Onboarding() {
       <div className="flex gap-4">
         {step > 1 && (
           <button
-            onClick={() => setStep(step - 1)}
+            onClick={() => {
+              setStep(step - 1);
+              scrollToTop();
+            }}
             className="w-1/3 bg-gray-100 text-black py-4 rounded-xl hover:bg-gray-200 transition-colors duration-200 text-lg font-medium"
           >
             Back
-          </button>
+        </button>
         )}
         <button
           onClick={() => {
-            if (step < 3) setStep(step + 1);
-            else navigate('/sandbox-headstart/dashboard');
+            if (step < 3) {
+              setStep(step + 1);
+              scrollToTop();
+            } else {
+              navigate('/sandbox-headstart/dashboard');
+            }
           }}
           className={`${step > 1 ? 'w-2/3' : 'w-full'} bg-black text-white py-4 rounded-xl hover:bg-gray-900 transition-colors duration-200 text-lg font-medium`}
         >

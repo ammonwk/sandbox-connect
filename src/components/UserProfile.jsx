@@ -1,4 +1,5 @@
 // UserProfile.jsx
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiMail, FiPhone, FiArrowLeft } from 'react-icons/fi';
 import { FaSlack } from 'react-icons/fa';
@@ -8,6 +9,13 @@ import userData from '../data/users.json';
 function UserProfile() {
   const { id } = useParams();
   const user = userData.users.find(u => u.id === parseInt(id));
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
   
   const statusStyles = {
     looking: "bg-green-100 text-green-800",
