@@ -1,20 +1,25 @@
 // components/Dashboard.jsx
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userData from '../data/users.json';
 import UserCard from './UserCard';
 import Navbar from './Navbar';
 import FilterBar from './FilterBar';
+import { useFilters } from '../context/FilterContext';
 
 function Dashboard() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortState, setSortState] = useState({
-    id: 'match',
-    direction: 'desc'
-  });
-  const [activeStatusFilters, setActiveStatusFilters] = useState(['looking', 'open', 'closed']);
-  const [activeHoursFilter, setActiveHoursFilter] = useState(null);
-  const [activeIdeaStatusFilter, setActiveIdeaStatusFilter] = useState(null);
+  const {
+    searchTerm,
+    setSearchTerm,
+    sortState,
+    setSortState,
+    activeStatusFilters,
+    setActiveStatusFilters,
+    activeHoursFilter,
+    setActiveHoursFilter,
+    activeIdeaStatusFilter,
+    setActiveIdeaStatusFilter,
+  } = useFilters();
   
   const navigate = useNavigate();
 
@@ -50,7 +55,6 @@ function Dashboard() {
         default:
           return 0;
       }
-
       return sortState.direction === 'desc' ? comparison : -comparison;
     });
   };
@@ -108,28 +112,19 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar 
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        handleLogout={handleLogout}
-      />
+      <Navbar handleLogout={handleLogout} />
       
       <div className="container mx-auto px-4 py-8">
         <div className="mb-4">
           <div className="flex items-baseline justify-between">
-          <div className="mb-4 w-full">
-            <div className="flex items-baseline justify-between">
-              <h1 className="text-3xl font-bold text-black">Find Your Team</h1>
-              <p className="text-gray-600 text-right">
-                Connect with potential teammates who complement your skills
-              </p>
+            <div className="mb-4 w-full">
+              <div className="flex items-baseline justify-between">
+                <h1 className="text-3xl font-bold text-black">Find Your Team</h1>
+                <p className="text-gray-600 text-right">
+                  Connect with potential teammates who complement your skills
+                </p>
+              </div>
             </div>
-          </div>
-            {getActiveFiltersCount() > 0 && (
-              <span className="text-sm text-gray-600">
-                {getActiveFiltersCount()} active filter{getActiveFiltersCount() !== 1 ? 's' : ''}
-              </span>
-            )}
           </div>
         </div>
 
