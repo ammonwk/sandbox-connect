@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Sarah Chen",
       "photo": "https://i.pravatar.cc/150?img=1",
-      "intro": "Junior at UC Berkeley studying Design & CS. Built my first health app during a summer internship at a YC startup.",
+      "intro": "Junior at University of Utah studying Design & CS. Built my first health app during a summer internship at a YC startup.",
       "status": "looking",
       "currentSkills": ["UI/UX Design", "Product Strategy"],
       "learningSkills": ["Mobile Development", "Data Analytics"],
@@ -15,13 +15,13 @@
         "slack": "@sarahchen"
       },
       "matchPercentage": 93,
-      "background": "Started as the design lead for Berkeley's health tech club. Previously interned at a mental health startup where I redesigned their patient onboarding flow. Working on an app to help students find and book mental health resources on campus."
+      "background": "Started as the design lead for UUtah's health tech club. Previously interned at a mental health startup where I redesigned their patient onboarding flow. Working on an app to help students find and book mental health resources on campus."
     },
     {
       "id": 2,
       "name": "Marcus Rodriguez",
-      "photo": "https://i.pravatar.cc/150?img=5",
-      "intro": "Senior at Georgia Tech in Computer Science. Been coding since high school, love building tools that make life easier.",
+      "photo": "https://i.pravatar.cc/150?img=11",
+      "intro": "Senior at BYU in Computer Science. Been coding since high school, love building tools that make life easier.",
       "status": "open",
       "currentSkills": ["Web Development", "API Development", "Server-side Architecture"],
       "learningSkills": ["Operations Management", "Product Strategy"],
@@ -38,7 +38,7 @@
       "id": 3,
       "name": "Alex Thompson",
       "photo": "https://i.pravatar.cc/150?img=3",
-      "intro": "Senior at NYU Stern, passionate about making investing accessible to college students.",
+      "intro": "Senior at Utah State University, passionate about making investing accessible to college students.",
       "status": "closed",
       "currentSkills": ["Finances", "Operations Management", "Market Research"],
       "learningSkills": ["Data Analytics", "API Development"],
@@ -49,7 +49,58 @@
         "slack": "@alexthompson"
       },
       "matchPercentage": 40,
-      "background": "President of NYU's Fintech Club. Won second place at Penn's fintech hackathon. Interned at Robinhood last summer. Building a platform that helps college students start investing with as little as $5."
+      "background": "President of USU's Fintech Club. Won second place at Utah's fintech hackathon. Interned at Robinhood last summer. Building a platform that helps college students start investing with as little as $5."
+    },
+    {
+      "id": 4,
+      "name": "Emma Wright",
+      "photo": "https://i.pravatar.cc/150?img=9",
+      "intro": "Junior at Weber State studying Data Science and Business Analytics.",
+      "status": "looking",
+      "currentSkills": ["Data Analytics", "Python", "Statistical Analysis"],
+      "learningSkills": ["Machine Learning", "Cloud Infrastructure"],
+      "desiredTeammateSkills": ["UI/UX Design", "Mobile Development", "Product Strategy"],
+      "contact": {
+        "email": "emma.w@example.com",
+        "phone": "(555) 456-7890",
+        "slack": "@emmawright"
+      },
+      "matchPercentage": 75,
+      "background": "Lead data analyst for Weber State's Business Analytics Club. Created a predictive model for student retention that's being implemented by the university. Currently working on a platform that helps local businesses make data-driven decisions."
+    },
+    {
+      "id": 5,
+      "name": "David Park",
+      "photo": "https://i.pravatar.cc/150?img=7",
+      "intro": "Senior at Utah Valley University majoring in Software Engineering.",
+      "status": "open",
+      "currentSkills": ["Mobile Development", "Cloud Infrastructure", "iOS Development"],
+      "learningSkills": ["UI/UX Design", "Product Management"],
+      "desiredTeammateSkills": ["Market Research", "Business Development", "Content Creation"],
+      "contact": {
+        "email": "david.p@example.com",
+        "phone": "(555) 567-8901",
+        "slack": "@davidpark"
+      },
+      "matchPercentage": 88,
+      "background": "Founded UVU's Mobile Dev Club. Developed three iOS apps currently on the App Store. Interned at Adobe in Salt Lake City. Building a social platform for connecting college entrepreneurs in Utah."
+    },
+    {
+      "id": 6,
+      "name": "Rachel Martinez",
+      "photo": "https://i.pravatar.cc/150?img=5",
+      "intro": "Senior at Westminster College studying Marketing and Computer Science.",
+      "status": "looking",
+      "currentSkills": ["Digital Marketing", "Content Strategy", "Web Development"],
+      "learningSkills": ["SEO", "Data Analytics"],
+      "desiredTeammateSkills": ["Mobile Development", "UI/UX Design", "Backend Development"],
+      "contact": {
+        "email": "rachel.m@example.com",
+        "phone": "(555) 678-9012",
+        "slack": "@rachelmartinez"
+      },
+      "matchPercentage": 62,
+      "background": "Marketing lead for Westminster's Tech Entrepreneurship Society. Ran successful digital campaigns for local startups. Currently developing a platform that helps small businesses automate their social media marketing."
     }
   ]
 }
