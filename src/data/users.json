@@ -1,46 +1,52 @@
 {
-    "users": [
-      {
-        "id": 1,
-        "name": "Sarah Chen",
-        "photo": "https://i.pravatar.cc/150?img=1",
-        "intro": "Product designer turned entrepreneur, looking to build something meaningful in the health tech space.",
-        "status": "looking",
-        "currentSkills": ["UI/UX Design", "Product Strategy", "Market Research"],
-        "desiredSkills": ["Mobile Development", "Cloud Infrastructure", "Data Analytics"],
-        "contact": {
-          "email": "sarah.chen@example.com",
-          "phone": "(555) 123-4567",
-          "slack": "@sarahchen"
-        }
+  "users": [
+    {
+      "id": 1,
+      "name": "Sarah Chen",
+      "photo": "https://i.pravatar.cc/150?img=1",
+      "intro": "Junior at UC Berkeley studying Design & CS. Built my first health app during a summer internship at a YC startup.",
+      "status": "looking",
+      "currentSkills": ["UI/UX Design", "Product Strategy"],
+      "learningSkills": ["Mobile Development", "Data Analytics"],
+      "desiredTeammateSkills": ["Cloud Infrastructure", "API Development", "Server-side Architecture", "Web Development"],
+      "contact": {
+        "email": "sarah.chen@example.com",
+        "phone": "(555) 123-4567",
+        "slack": "@sarahchen"
       },
-      {
-        "id": 2,
-        "name": "Marcus Rodriguez",
-        "photo": "https://i.pravatar.cc/150?img=5",
-        "intro": "Full-stack developer with a passion for AI and machine learning applications.",
-        "status": "open",
-        "currentSkills": ["Web Development", "API Development", "Server-side Architecture"],
-        "desiredSkills": ["Operations Management", "Sales/Marketing", "Finances"],
-        "contact": {
-          "email": "marcus.r@example.com",
-          "phone": "(555) 234-5678",
-          "slack": "@marcusdev"
-        }
+      "background": "Started as the design lead for Berkeley's health tech club. Previously interned at a mental health startup where I redesigned their patient onboarding flow. Working on an app to help students find and book mental health resources on campus."
+    },
+    {
+      "id": 2,
+      "name": "Marcus Rodriguez",
+      "photo": "https://i.pravatar.cc/150?img=5",
+      "intro": "Senior at Georgia Tech in Computer Science. Been coding since high school, love building tools that make life easier.",
+      "status": "open",
+      "currentSkills": ["Web Development", "API Development", "Server-side Architecture"],
+      "learningSkills": ["Operations Management", "Product Strategy"],
+      "desiredTeammateSkills": ["Sales/Marketing", "Market Research", "UI/UX Design", "Finances"],
+      "contact": {
+        "email": "marcus.r@example.com",
+        "phone": "(555) 234-5678",
+        "slack": "@marcusdev"
       },
-      {
-        "id": 3,
-        "name": "Alex Thompson",
-        "photo": "https://i.pravatar.cc/150?img=3",
-        "intro": "Former management consultant looking to disrupt the fintech industry.",
-        "status": "closed",
-        "currentSkills": ["Finances", "Operations Management", "Sales/Marketing"],
-        "desiredSkills": ["Cloud Infrastructure", "API Development", "Data Analytics"],
-        "contact": {
-          "email": "alex.t@example.com",
-          "phone": "(555) 345-6789",
-          "slack": "@alexthompson"
-        }
-      }
-    ]
-  }
+      "background": "Built a popular Chrome extension for students (10k+ users) that organizes Canvas assignments better. Did a summer internship at Microsoft. Now working on an AI study buddy that helps explain complex topics to students."
+    },
+    {
+      "id": 3,
+      "name": "Alex Thompson",
+      "photo": "https://i.pravatar.cc/150?img=3",
+      "intro": "Senior at NYU Stern, passionate about making investing accessible to college students.",
+      "status": "closed",
+      "currentSkills": ["Finances", "Operations Management", "Market Research"],
+      "learningSkills": ["Data Analytics", "API Development"],
+      "desiredTeammateSkills": ["Cloud Infrastructure", "Mobile Development", "Web Development", "UI/UX Design"],
+      "contact": {
+        "email": "alex.t@example.com",
+        "phone": "(555) 345-6789",
+        "slack": "@alexthompson"
+      },
+      "background": "President of NYU's Fintech Club. Won second place at Penn's fintech hackathon. Interned at Robinhood last summer. Building a platform that helps college students start investing with as little as $5."
+    }
+  ]
+}

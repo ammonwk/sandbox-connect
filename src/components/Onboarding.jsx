@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const SKILLS = [
-  'Web Development', 'Mobile Development', 'UI/UX Design', 'Server-side Architecture',
-  'API Development', 'Cloud Infrastructure', 'Data Analytics', 'Finances', 'Market Research', 'Sales/Marketing',
-  'Product Strategy', 'Operations Management'
-];
+import { SKILLS } from '../data/skills';
 
 function Onboarding() {
   const [step, setStep] = useState(1);
@@ -17,6 +12,20 @@ function Onboarding() {
   const [hoursPerWeek, setHoursPerWeek] = useState(40);
   const [situation, setSituation] = useState(50);
   const navigate = useNavigate();
+
+  const handleSkillSelection = (category, skill) => {
+    const current = selectedSkills[category];
+    const MAX_SKILLS = 5;
+
+    setSelectedSkills(prev => ({
+      ...prev,
+      [category]: current.includes(skill)
+        ? current.filter(s => s !== skill)
+        : current.length < MAX_SKILLS 
+          ? [...current, skill]
+          : current
+    }));
+  };
 
   const getSituationText = (value) => {
     if (value < 33) return "I have a specific startup idea that I'm pretty set on.";
@@ -61,38 +70,54 @@ function Onboarding() {
             
             {['current', 'toLearn', 'teammates'].map((category) => (
               <div className="bg-gray-50 rounded-xl p-6 hover:shadow-md transition-shadow duration-200" key={category}>
-                <button 
-                  className="w-full flex justify-between items-center text-left text-xl font-semibold text-black"
-                  onClick={() => {/* Toggle logic */}}
-                >
+                <div className="text-xl font-semibold text-black mb-6">
                   {category === 'current' && "What skills do you already have confidence in?"}
                   {category === 'toLearn' && "What skills do you hope to learn while in Sandbox?"}
                   {category === 'teammates' && "What skills do you hope your teammates will have?"}
-                  <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+                </div>
                 
-                <div className="mt-6 flex flex-wrap gap-3">
-                  {SKILLS.map((skill) => (
-                    <button
-                      key={skill}
-                      onClick={() => {
-                        const current = selectedSkills[category];
-                        const updated = current.includes(skill)
-                          ? current.filter(s => s !== skill)
-                          : current.length < 5 ? [...current, skill] : current;
-                        setSelectedSkills({...selectedSkills, [category]: updated});
-                      }}
-                      className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
-                        selectedSkills[category].includes(skill)
-                          ? 'bg-black text-white'
-                          : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
-                      }`}
-                    >
-                      {skill}
-                    </button>
-                  ))}
+                <div className="mt-6 space-y-6">
+                  <div>
+                    <h4 className="text-lg font-medium text-black mb-4">Development Skills</h4>
+                    <div className="flex flex-wrap gap-3">
+                      {SKILLS.dev.map((skill) => (
+                        <button
+                          key={skill}
+                          onClick={() => handleSkillSelection(category, skill)}
+                          className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                            selectedSkills[category].includes(skill)
+                              ? 'bg-indigo-600 text-white'
+                              : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                          }`}
+                        >
+                          {skill}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-lg font-medium text-black mb-4">Business Skills</h4>
+                    <div className="flex flex-wrap gap-3">
+                      {SKILLS.business.map((skill) => (
+                        <button
+                          key={skill}
+                          onClick={() => handleSkillSelection(category, skill)}
+                          className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                            selectedSkills[category].includes(skill)
+                              ? 'bg-emerald-600 text-white'
+                              : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                          }`}
+                        >
+                          {skill}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-4 text-sm text-gray-600">
+                  Selected: {selectedSkills[category].length}/5 skills
                 </div>
               </div>
             ))}
@@ -116,12 +141,8 @@ function Onboarding() {
                 />
                 <div className="flex justify-between text-sm text-gray-600">
                   <span>20 hours</span>
-                  <div className="flex justify-between text-sm">
-                    {/* <span className="text-gray-600">20 hours</span> */}
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-black font-bold text-lg">
-                      {hoursPerWeek} hours
-                    </span>
-                    {/* <span className="text-gray-600">65 hours</span> */}
+                  <div className="bg-gray-100 px-3 py-1 rounded-full text-black font-bold text-lg">
+                    {hoursPerWeek} hours
                   </div>
                   <span>65 hours</span>
                 </div>
@@ -130,7 +151,6 @@ function Onboarding() {
                 </p>
               </div>
             </div>
-
             <div>
               <h3 className="text-xl font-semibold text-black mb-6">
                 Do you have ideas, or do you need ideas?

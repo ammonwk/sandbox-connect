@@ -1,18 +1,20 @@
+// UserProfile.jsx
 import { useParams, Link } from 'react-router-dom';
 import { FiMail, FiPhone, FiArrowLeft } from 'react-icons/fi';
 import { FaSlack } from 'react-icons/fa';
+import { SKILLS } from '../data/skills';
 import userData from '../data/users.json';
 
 function UserProfile() {
   const { id } = useParams();
   const user = userData.users.find(u => u.id === parseInt(id));
-
+  
   const statusStyles = {
     looking: "bg-green-100 text-green-800",
     open: "bg-yellow-100 text-yellow-800",
     closed: "bg-red-100 text-red-800"
   };
-
+  
   const statusText = {
     looking: "Looking for a team",
     open: "Open to new teammates",
@@ -85,36 +87,118 @@ function UserProfile() {
             </div>
           </div>
 
-          {/* Skills Section */}
+          {/* Skills Sections */}
           <div className="border-t border-gray-200 p-8">
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Current Skills */}
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-black">Current Skills</h2>
-                <div className="flex flex-wrap gap-2">
-                  {user.currentSkills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+            <div className="space-y-8">
+              {/* Current & Learning Skills */}
+              <div>
+                <h2 className="text-xl font-semibold text-black mb-4">Their Skills</h2>
+                <div className="space-y-6">
+                  {/* Development Skills */}
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-700 mb-3">Development</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {user.currentSkills
+                        .filter(skill => SKILLS.dev.includes(skill))
+                        .map((skill) => (
+                          <span
+                            key={skill}
+                            className="group relative px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm"
+                          >
+                            {skill}
+                            <span className="invisible group-hover:visible absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">
+                              Has experience
+                            </span>
+                          </span>
+                        ))}
+                      {user.learningSkills
+                        ?.filter(skill => SKILLS.dev.includes(skill))
+                        .map((skill) => (
+                          <span
+                            key={`learning-${skill}`}
+                            className="group relative px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm border-2 border-dashed border-indigo-300"
+                          >
+                            {skill}
+                            <span className="invisible group-hover:visible absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">
+                              Willing to learn
+                            </span>
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+
+                  {/* Business Skills */}
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-700 mb-3">Business</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {user.currentSkills
+                        .filter(skill => SKILLS.business.includes(skill))
+                        .map((skill) => (
+                          <span
+                            key={skill}
+                            className="group relative px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm"
+                          >
+                            {skill}
+                            <span className="invisible group-hover:visible absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">
+                              Has experience
+                            </span>
+                          </span>
+                        ))}
+                      {user.learningSkills
+                        ?.filter(skill => SKILLS.business.includes(skill))
+                        .map((skill) => (
+                          <span
+                            key={`learning-${skill}`}
+                            className="group relative px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm border-2 border-dashed border-emerald-300"
+                          >
+                            {skill}
+                            <span className="invisible group-hover:visible absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">
+                              Willing to learn
+                            </span>
+                          </span>
+                        ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Desired Skills */}
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-black">Looking to Learn</h2>
-                <div className="flex flex-wrap gap-2">
-                  {user.desiredSkills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+              {/* Desired Teammate Skills */}
+              <div>
+                <h2 className="text-xl font-semibold text-black mb-4">Looking for Teammates With</h2>
+                <div className="space-y-6">
+                  {/* Development Skills */}
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-700 mb-3">Development</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {user.desiredTeammateSkills
+                        ?.filter(skill => SKILLS.dev.includes(skill))
+                        .map((skill) => (
+                          <span
+                            key={`teammate-${skill}`}
+                            className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm border border-indigo-200"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+
+                  {/* Business Skills */}
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-700 mb-3">Business</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {user.desiredTeammateSkills
+                        ?.filter(skill => SKILLS.business.includes(skill))
+                        .map((skill) => (
+                          <span
+                            key={`teammate-${skill}`}
+                            className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm border border-emerald-200"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

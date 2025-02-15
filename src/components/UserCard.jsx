@@ -1,14 +1,16 @@
+// UserCard.jsx
 import { useNavigate } from 'react-router-dom';
+import { SKILLS } from '../data/skills';
 
 function UserCard({ user }) {
   const navigate = useNavigate();
-
+  
   const statusStyles = {
     looking: "bg-green-100 text-green-800",
     open: "bg-yellow-100 text-yellow-800",
     closed: "bg-red-100 text-red-800"
   };
-
+  
   const statusText = {
     looking: "Looking for a team",
     open: "Open to new teammates",
@@ -34,26 +36,55 @@ function UserCard({ user }) {
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-4">
+          {/* Current & Learning Skills */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-2">They know:</h4>
+            <h4 className="text-sm font-semibold text-gray-900 mb-2">Their Skills:</h4>
             <div className="space-y-2">
               {user.currentSkills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-block w-full px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
+                  className={`group relative inline-block w-full px-3 py-1 text-sm rounded-full
+                    ${SKILLS.dev.includes(skill) 
+                      ? 'bg-indigo-100 text-indigo-700' 
+                      : 'bg-emerald-100 text-emerald-700'}
+                  `}
                 >
                   {skill}
+                  <span className="invisible group-hover:visible absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">
+                    Has experience
+                  </span>
+                </span>
+              ))}
+              {user.learningSkills?.map((skill) => (
+                <span
+                  key={`learning-${skill}`}
+                  className={`group relative inline-block w-full px-3 py-1 text-sm rounded-full border-2 border-dashed
+                    ${SKILLS.dev.includes(skill) 
+                      ? 'bg-indigo-50 text-indigo-700 border-indigo-300' 
+                      : 'bg-emerald-50 text-emerald-700 border-emerald-300'}
+                  `}
+                >
+                  {skill}
+                  <span className="invisible group-hover:visible absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">
+                    Willing to learn
+                  </span>
                 </span>
               ))}
             </div>
           </div>
+
+          {/* Desired Teammate Skills */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-2">They need:</h4>
+            <h4 className="text-sm font-semibold text-gray-900 mb-2">Looking for teammates with:</h4>
             <div className="space-y-2">
-              {user.desiredSkills.map((skill) => (
+              {user.desiredTeammateSkills?.map((skill) => (
                 <span
-                  key={skill}
-                  className="inline-block w-full px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded-full"
+                  key={`teammate-${skill}`}
+                  className={`inline-block w-full px-3 py-1 text-sm rounded-full 
+                    ${SKILLS.dev.includes(skill) 
+                      ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' 
+                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200'}
+                  `}
                 >
                   {skill}
                 </span>
