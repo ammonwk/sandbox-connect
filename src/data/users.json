@@ -15,7 +15,10 @@
         "slack": "@sarahchen"
       },
       "matchPercentage": 93,
-      "background": "Started as the design lead for UUtah's health tech club. Previously interned at a mental health startup where I redesigned their patient onboarding flow. Working on an app to help students find and book mental health resources on campus."
+      "background": "Started as the design lead for UUtah's health tech club. Previously interned at a mental health startup where I redesigned their patient onboarding flow. Working on an app to help students find and book mental health resources on campus.",
+      "hoursPerWeek": 35,
+      "ideaStatus": "one",
+      "lastActive": "2025-02-14T15:30:00Z"
     },
     {
       "id": 2,
@@ -32,7 +35,10 @@
         "slack": "@marcusdev"
       },
       "matchPercentage": 12,
-      "background": "Built a popular Chrome extension for students (10k+ users) that organizes Canvas assignments better. Did a summer internship at Microsoft. Now working on an AI study buddy that helps explain complex topics to students."
+      "background": "Built a popular Chrome extension for students (10k+ users) that organizes Canvas assignments better. Did a summer internship at Microsoft. Now working on an AI study buddy that helps explain complex topics to students.",
+      "hoursPerWeek": 45,
+      "ideaStatus": "one",
+      "lastActive": "2025-02-15T09:45:00Z"
     },
     {
       "id": 3,
@@ -49,7 +55,10 @@
         "slack": "@alexthompson"
       },
       "matchPercentage": 40,
-      "background": "President of USU's Fintech Club. Won second place at Utah's fintech hackathon. Interned at Robinhood last summer. Building a platform that helps college students start investing with as little as $5."
+      "background": "President of USU's Fintech Club. Won second place at Utah's fintech hackathon. Interned at Robinhood last summer. Building a platform that helps college students start investing with as little as $5.",
+      "hoursPerWeek": 25,
+      "ideaStatus": "one",
+      "lastActive": "2025-02-13T18:20:00Z"
     },
     {
       "id": 4,
@@ -66,7 +75,10 @@
         "slack": "@emmawright"
       },
       "matchPercentage": 75,
-      "background": "Lead data analyst for Weber State's Business Analytics Club. Created a predictive model for student retention that's being implemented by the university. Currently working on a platform that helps local businesses make data-driven decisions."
+      "background": "Lead data analyst for Weber State's Business Analytics Club. Created a predictive model for student retention that's being implemented by the university. Currently working on a platform that helps local businesses make data-driven decisions.",
+      "hoursPerWeek": 30,
+      "ideaStatus": "few",
+      "lastActive": "2025-02-15T11:15:00Z"
     },
     {
       "id": 5,
@@ -83,7 +95,10 @@
         "slack": "@davidpark"
       },
       "matchPercentage": 88,
-      "background": "Founded UVU's Mobile Dev Club. Developed three iOS apps currently on the App Store. Interned at Adobe in Salt Lake City. Building a social platform for connecting college entrepreneurs in Utah."
+      "background": "Founded UVU's Mobile Dev Club. Developed three iOS apps currently on the App Store. Interned at Adobe in Salt Lake City. Building a social platform for connecting college entrepreneurs in Utah.",
+      "hoursPerWeek": 55,
+      "ideaStatus": "one",
+      "lastActive": "2025-02-14T20:45:00Z"
     },
     {
       "id": 6,
@@ -100,7 +115,10 @@
         "slack": "@rachelmartinez"
       },
       "matchPercentage": 62,
-      "background": "Marketing lead for Westminster's Tech Entrepreneurship Society. Ran successful digital campaigns for local startups. Currently developing a platform that helps small businesses automate their social media marketing."
+      "background": "Marketing lead for Westminster's Tech Entrepreneurship Society. Ran successful digital campaigns for local startups. Currently developing a platform that helps small businesses automate their social media marketing.",
+      "hoursPerWeek": 40,
+      "ideaStatus": "none",
+      "lastActive": "2025-02-15T08:30:00Z"
     }
   ]
 }
