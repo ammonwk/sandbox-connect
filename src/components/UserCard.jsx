@@ -46,7 +46,7 @@ function UserCard({ user }) {
           />
           <div>
             <h3 className="text-xl font-semibold text-black">{user.name}</h3>
-            <p className="text-gray-600 text-sm mb-2 pt-2 line-clamp-2 min-h-[5em] leading-[1.5em]">
+            <p className="text-gray-600 text-sm mb-2 pt-2 line-clamp-2 min-h-[3em] leading-[1.5em]">
               {user.intro}
             </p>
             <span className={`inline-block px-3 py-1 rounded-full text-sm ${statusStyles[user.status]}`}>

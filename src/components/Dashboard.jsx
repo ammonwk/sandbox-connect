@@ -1,5 +1,5 @@
 // components/Dashboard.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userData from '../data/users.json';
 import UserCard from './UserCard';
@@ -9,6 +9,13 @@ function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
   
   const filters = [
     { id: 'all', label: 'All' },

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SKILLS } from '../data/skills';
 
@@ -16,7 +16,14 @@ function Onboarding() {
   const [isValid, setIsValid] = useState(false);
   const navigate = useNavigate();
 
-  const scrollToTop = () => {
+  useEffect(() => { // Scroll to top on load
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
+  const scrollToTop = () => { // Scroll to top on step change
     setTimeout(() => {
       window.scrollTo({
         top: 0,
