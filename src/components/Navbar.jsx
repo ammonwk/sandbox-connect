@@ -28,7 +28,7 @@ function Navbar({ searchTerm, setSearchTerm, handleLogout }) {
                   to="/sandbox-headstart/dashboard"
                   className="text-gray-600 hover:text-black px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Messages
+                  Saved Profiles
                 </Link>
                 <Link
                   to="/sandbox-headstart/profile/me"

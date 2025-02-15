@@ -216,7 +216,7 @@ function UserProfile() {
           <div className="border-t border-gray-200 p-8">
             <div className="flex flex-col sm:flex-row gap-4">
               <button className="flex-1 bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors duration-200">
-                Send Message
+                Send Message via Slack
               </button>
               <button className="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors duration-200">
                 Save Profile
