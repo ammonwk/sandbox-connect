@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .slider-track {
+    @apply h-2 bg-gray-200 rounded-full;
+  }
+  
+  .slider-thumb {
+    @apply w-6 h-6 bg-black rounded-full cursor-pointer
+           hover:bg-gray-800 transition-colors;
+  }
+}

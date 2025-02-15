@@ -1,0 +1,46 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "name": "Sarah Chen",
+        "photo": "https://i.pravatar.cc/150?img=1",
+        "intro": "Product designer turned entrepreneur, looking to build something meaningful in the health tech space.",
+        "status": "looking",
+        "currentSkills": ["UI/UX Design", "Product Strategy", "Market Research"],
+        "desiredSkills": ["Mobile Development", "Cloud Infrastructure", "Data Analytics"],
+        "contact": {
+          "email": "sarah.chen@example.com",
+          "phone": "(555) 123-4567",
+          "slack": "@sarahchen"
+        }
+      },
+      {
+        "id": 2,
+        "name": "Marcus Rodriguez",
+        "photo": "https://i.pravatar.cc/150?img=5",
+        "intro": "Full-stack developer with a passion for AI and machine learning applications.",
+        "status": "open",
+        "currentSkills": ["Web Development", "API Development", "Server-side Architecture"],
+        "desiredSkills": ["Operations Management", "Sales/Marketing", "Finances"],
+        "contact": {
+          "email": "marcus.r@example.com",
+          "phone": "(555) 234-5678",
+          "slack": "@marcusdev"
+        }
+      },
+      {
+        "id": 3,
+        "name": "Alex Thompson",
+        "photo": "https://i.pravatar.cc/150?img=3",
+        "intro": "Former management consultant looking to disrupt the fintech industry.",
+        "status": "closed",
+        "currentSkills": ["Finances", "Operations Management", "Sales/Marketing"],
+        "desiredSkills": ["Cloud Infrastructure", "API Development", "Data Analytics"],
+        "contact": {
+          "email": "alex.t@example.com",
+          "phone": "(555) 345-6789",
+          "slack": "@alexthompson"
+        }
+      }
+    ]
+  }
