@@ -10,12 +10,15 @@ Sandbox Headstart is a web application designed to help students in the Sandbox 
 - **Dashboard:** Browse and connect with other Sandbox participants.
 - **User Profiles:** View detailed profiles, including contact information.
 
-## TODO
+## 🛠️ TODO
 
-- [ ] Add a few more focused options for user profiles
-- [ ] Replace filler data with real user data
+- [x] Add a few more focused options for user profiles
+- [ ] Replace filler data with real user data (From sandbox applicants)
 - [ ] Make matching algorithm
+    - Involving complementatry strenghts and weaknesses, time commitment, idea openness, and team situation.
 - [ ] Review data security
+- [ ] Let users put their startup ideas on their profile
+- [ ] Add "Support" page & Feedback options
 
 ## 🛠️ Installation & Setup
 To get started with Sandbox Headstart on your local machine, follow these steps:
@@ -38,76 +41,12 @@ npm run dev
 
 The app will be available at `http://localhost:5173` (or a similar port).
 
-## 🔑 Authentication
-Users sign in using their phone numbers, which should integrate with the existing Sandbox authentication service.
-
-## 🌟 Core Components
-
-### `LandingPage.jsx`
-- Entry point for users to log in using phone number authentication.
-
-### `Onboarding.jsx`
-- Multi-step form where users specify:
-  - Current skills
-  - Skills they want to learn
-  - Skills they want in teammates
-  - Weekly commitment hours
-  - Their level of idea commitment
-
-### `Dashboard.jsx`
-- Displays a list of potential teammates.
-- Users can filter by:
-  - Name, skills, or profile text.
-  - Availability: **Looking for Team, Open to Join, Closed Teams**.
-  
-### `UserProfile.jsx`
-- Displays a full profile of a user.
-- Shows contact details (email, phone, Slack).
-- Lists current skills and desired skills.
-
-### `UserCard.jsx`
-- Displays a short preview of a user’s profile within the dashboard.
-
-## 🎨 Styling
-This project uses **Tailwind CSS** for styling. Modify `index.css` to customize UI elements.
-
-## 📂 Data Structure (Example `users.json`)
-```
-{
-  "users": [
-    {
-      "id": 1,
-      "name": "Alice Johnson",
-      "intro": "Passionate about fintech startups!",
-      "status": "looking",
-      "photo": "https://example.com/photo.jpg",
-      "currentSkills": ["Web Development", "Data Analytics"],
-      "desiredSkills": ["Sales/Marketing", "Operations Management"],
-      "contact": {
-        "email": "alice@example.com",
-        "phone": "(555) 123-4567",
-        "slack": "@alicej"
-      }
-    }
-  ]
-}
-```
-
-## 🛠️ Future Enhancements
-- **Idea Management:** Users can post startup ideas without revealing too much detail.
-- **Direct Messaging:** In-app messaging to streamline communication.
-- **AI Team Recommendations:** Suggest optimal team matches based on skillset and commitment.
-- **Integration with Sandbox Authentication:** Secure login using university-provided authentication.
-
 ## 🤝 Contributing
-Contributions are welcome! Please follow these steps:
-1. Fork the repository.
-2. Create a new branch (`feature-xyz`).
-3. Commit changes.
-4. Push to your fork and submit a Pull Request.
+Contributions are welcome! Please email me before beginning to work, to make sure
+we align our roadmaps with each other and with the Sandbox team.
 
 ## 📜 License
 This project is licensed under the MIT License.
 
 ## 📧 Contact
-For questions or suggestions, reach out to `ammonwk@example.com`.
+For questions or suggestions, reach out to `ammonwk@gmail.com`.
