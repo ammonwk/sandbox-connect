@@ -191,16 +191,17 @@ function Onboarding() {
               <div className="space-y-4">
                 <input
                   type="range"
-                  min="20"
+                  min="15"
                   max="65"
+                  step="5"
                   value={hoursPerWeek}
                   onChange={(e) => setHoursPerWeek(e.target.value)}
                   className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-black"
                 />
                 <div className="flex justify-between text-sm text-gray-600">
-                  <span>20 hours</span>
+                  <span>15 hours</span>
                   <div className="bg-gray-100 px-3 py-1 rounded-full text-black font-bold text-lg">
-                    {hoursPerWeek} hours
+                    {hoursPerWeek}{hoursPerWeek == 65 && '+'} hours 
                   </div>
                   <span>65 hours</span>
                 </div>
@@ -209,12 +210,25 @@ function Onboarding() {
                 </p>
               </div>
             </div>
+
             <div>
               <h3 className="text-xl font-semibold text-black mb-6">
                 Do you already have a startup idea in mind?
               </h3>
-              <div className="flex justify-center">
-                <div className="inline-flex rounded-full bg-gray-100 p-1">
+              <div className="flex justify-center w-full overflow-x-visible">
+                <div className="inline-flex rounded-full bg-gray-100 p-1 relative" 
+                    style={{"--min-button-width": "clamp(5.5rem, 28vw, 8rem)"}}>
+                  <div 
+                    className="absolute h-[calc(100%-8px)] top-1 transition-all duration-150 ease-in-out bg-black rounded-full"
+                    style={{
+                      width: 'var(--min-button-width)',
+                      left: `calc(${
+                        ideaStatus === 'one, set in stone' ? '0' :
+                        ideaStatus === 'a few of them' ? '1' :
+                        '2'
+                      } * var(--min-button-width) + 4px)`
+                    }}
+                  />
                   {[
                     'One, set in stone', 
                     'A few of them', 
@@ -223,9 +237,11 @@ function Onboarding() {
                     <button
                       key={status}
                       onClick={() => setIdeaStatus(status.toLowerCase())}
-                      className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                      className={`px-4 sm:px-4 py-2 sm:py-3 rounded-full text-s sm:text-sm font-medium 
+                        transition-all duration-200 w-[var(--min-button-width)] text-center relative z-10 
+                        leading-tight ${
                         ideaStatus === status.toLowerCase()
-                          ? 'bg-black text-white'
+                          ? 'text-white'
                           : 'text-gray-700 hover:text-gray-900'
                       }`}
                     >
@@ -235,19 +251,34 @@ function Onboarding() {
                 </div>
               </div>
             </div>
+
             <div>
               <h3 className="text-xl font-semibold text-black mb-6">
                 What's your team situation?
               </h3>
-              <div className="flex justify-center">
-                <div className="inline-flex rounded-full bg-gray-100 p-1">
+              <div className="flex justify-center w-full overflow-x-visible">
+                <div className="inline-flex rounded-full bg-gray-100 p-1 relative" 
+                    style={{"--min-button-width": "clamp(5.5rem, 28vw, 8rem)"}}>
+                  <div 
+                    className="absolute h-[calc(100%-8px)] top-1 transition-all duration-150 ease-in-out bg-black rounded-full"
+                    style={{
+                      width: 'var(--min-button-width)',
+                      left: `calc(${
+                        teamStatus === 'looking' ? '0' :
+                        teamStatus === 'found some' ? '1' :
+                        '2'
+                      } * var(--min-button-width) + 4px)`
+                    }}
+                  />
                   {['Looking', 'Found Some', 'Complete'].map((status) => (
                     <button
                       key={status}
                       onClick={() => setTeamStatus(status.toLowerCase())}
-                      className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                      className={`px-4 sm:px-4 py-2 sm:py-3 rounded-full text-s sm:text-sm font-medium 
+                        transition-all duration-200 w-[var(--min-button-width)] text-center relative z-10 
+                        leading-tight ${
                         teamStatus === status.toLowerCase()
-                          ? 'bg-black text-white'
+                          ? 'text-white'
                           : 'text-gray-700 hover:text-gray-900'
                       }`}
                     >
