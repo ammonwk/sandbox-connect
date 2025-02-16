@@ -52,14 +52,24 @@ function FilterBar({
       { id: 'few', label: 'Has Multiple Ideas' },
       { id: 'none', label: 'Open to Ideas' }
     ];
+
+    const getHoursLabel = () => {
+      if (!activeHoursFilter || activeHoursFilter.length === hoursFilters.length) return "All";
+      return `${activeHoursFilter.length} selected`;
+    };
+
+    const getIdeaStatusLabel = () => {
+      if (!activeIdeaStatusFilter || activeIdeaStatusFilter.length === ideaStatusFilters.length) return "All";
+      return `${activeIdeaStatusFilter.length} selected`;
+    };
    
     const handleDropdownClick = (dropdown) => {
       setOpenDropdown(openDropdown === dropdown ? null : dropdown);
     };
    
     const hasActiveFilters = activeStatusFilters.length > 0 || 
-      activeHoursFilter || 
-      activeIdeaStatusFilter || 
+      (activeHoursFilter && activeHoursFilter.length < hoursFilters.length) || 
+      (activeIdeaStatusFilter && activeIdeaStatusFilter.length < ideaStatusFilters.length) || 
       activeSortOption !== 'match';
    
     const SortDropdown = () => (
@@ -183,39 +193,21 @@ function FilterBar({
               <Dropdown
                 id="hours"
                 label="Hours"
-                selection={activeHoursFilter 
-                  ? hoursFilters.find(f => f.id === activeHoursFilter)?.label 
-                  : "Any"}
+                selection={getHoursLabel()}
                 isOpen={openDropdown === 'hours'}
                 onClick={() => handleDropdownClick('hours')}
                 content={
                   <div className="p-2 space-y-1">
-                    <button
-                      onClick={() => {
-                        onHoursFilterChange(null);
-                        setOpenDropdown(null);
-                      }}
-                      className={`w-full text-left px-3 py-2 text-sm rounded ${
-                        !activeHoursFilter ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'
-                      }`}
-                    >
-                      Any
-                    </button>
                     {hoursFilters.map((filter) => (
-                      <button
-                        key={filter.id}
-                        onClick={() => {
-                          onHoursFilterChange(filter.id);
-                          setOpenDropdown(null);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded text-sm ${
-                          activeHoursFilter === filter.id
-                            ? 'bg-black text-white'
-                            : 'text-gray-700 hover:bg-gray-100'
-                        }`}
-                      >
-                        {filter.label}
-                      </button>
+                      <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!activeHoursFilter || activeHoursFilter.includes(filter.id)}
+                          onChange={() => onHoursFilterChange(filter.id)}
+                          className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
+                      </label>
                     ))}
                   </div>
                 }
@@ -226,39 +218,21 @@ function FilterBar({
               <Dropdown
                 id="idea"
                 label="Project"
-                selection={activeIdeaStatusFilter 
-                  ? ideaStatusFilters.find(f => f.id === activeIdeaStatusFilter)?.label 
-                  : "Any"}
+                selection={getIdeaStatusLabel()}
                 isOpen={openDropdown === 'idea'}
                 onClick={() => handleDropdownClick('idea')}
                 content={
                   <div className="p-2 space-y-1">
-                    <button
-                      onClick={() => {
-                        onIdeaStatusFilterChange(null);
-                        setOpenDropdown(null);
-                      }}
-                      className={`w-full text-left px-3 py-2 text-sm rounded ${
-                        !activeIdeaStatusFilter ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'
-                      }`}
-                    >
-                      Any
-                    </button>
                     {ideaStatusFilters.map((filter) => (
-                      <button
-                        key={filter.id}
-                        onClick={() => {
-                          onIdeaStatusFilterChange(filter.id);
-                          setOpenDropdown(null);
-                        }}
-                        className={`w-full text-left px-3 py-2 rounded text-sm ${
-                          activeIdeaStatusFilter === filter.id
-                            ? 'bg-black text-white'
-                            : 'text-gray-700 hover:bg-gray-100'
-                        }`}
-                      >
-                        {filter.label}
-                      </button>
+                      <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!activeIdeaStatusFilter || activeIdeaStatusFilter.includes(filter.id)}
+                          onChange={() => onIdeaStatusFilterChange(filter.id)}
+                          className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
+                      </label>
                     ))}
                   </div>
                 }

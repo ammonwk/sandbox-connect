@@ -1,4 +1,3 @@
-// src/context/FilterContext.jsx
 import { createContext, useState, useContext } from 'react';
 
 const FilterContext = createContext();
@@ -10,8 +9,8 @@ export function FilterProvider({ children }) {
     direction: 'desc'
   });
   const [activeStatusFilters, setActiveStatusFilters] = useState(['looking', 'open', 'closed']);
-  const [activeHoursFilter, setActiveHoursFilter] = useState(null);
-  const [activeIdeaStatusFilter, setActiveIdeaStatusFilter] = useState(null);
+  const [activeHoursFilter, setActiveHoursFilter] = useState(['20-30', '31-40', '41-50', '50+']);
+  const [activeIdeaStatusFilter, setActiveIdeaStatusFilter] = useState(['one', 'few', 'none']);
 
   return (
     <FilterContext.Provider value={{

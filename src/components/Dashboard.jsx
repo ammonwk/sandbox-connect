@@ -67,14 +67,17 @@ function Dashboard() {
     
     const matchesStatus = activeStatusFilters.includes(user.status);
     
-    const matchesHours = !activeHoursFilter ? true : 
-      (activeHoursFilter === '20-30' && user.hoursPerWeek >= 20 && user.hoursPerWeek <= 30) ||
-      (activeHoursFilter === '31-40' && user.hoursPerWeek >= 31 && user.hoursPerWeek <= 40) ||
-      (activeHoursFilter === '41-50' && user.hoursPerWeek >= 41 && user.hoursPerWeek <= 50) ||
-      (activeHoursFilter === '50+' && user.hoursPerWeek > 50);
-      
-    const matchesIdeaStatus = !activeIdeaStatusFilter ? true :
-      user.ideaStatus === activeIdeaStatusFilter;
+    const matchesHours = !activeHoursFilter || activeHoursFilter.length === 0 ? true :
+    activeHoursFilter.some(range => {
+      if (range === '20-30') return user.hoursPerWeek >= 20 && user.hoursPerWeek <= 30;
+      if (range === '31-40') return user.hoursPerWeek >= 31 && user.hoursPerWeek <= 40;
+      if (range === '41-50') return user.hoursPerWeek >= 41 && user.hoursPerWeek <= 50;
+      if (range === '50+') return user.hoursPerWeek > 50;
+      return false;
+    });
+
+  const matchesIdeaStatus = !activeIdeaStatusFilter || activeIdeaStatusFilter.length === 0 ? true :
+    activeIdeaStatusFilter.includes(user.ideaStatus);
     
     return matchesSearch && matchesStatus && matchesHours && matchesIdeaStatus;
   }));
@@ -88,19 +91,25 @@ function Dashboard() {
   };
 
   const handleHoursFilterChange = (hoursRange) => {
-    setActiveHoursFilter(prev => prev === hoursRange ? null : hoursRange);
+    setActiveHoursFilter(prev => {
+      if (!prev) return [hoursRange];
+      if (prev.includes(hoursRange)) {
+        const newFilters = prev.filter(h => h !== hoursRange);
+        return newFilters.length ? newFilters : null;
+      }
+      return [...prev, hoursRange];
+    });
   };
-
+  
   const handleIdeaStatusFilterChange = (ideaStatus) => {
-    setActiveIdeaStatusFilter(prev => prev === ideaStatus ? null : ideaStatus);
-  };
-
-  const getActiveFiltersCount = () => {
-    let count = 0;
-    if (activeHoursFilter) count++;
-    if (activeIdeaStatusFilter) count++;
-    if (activeStatusFilters.length < 3) count++;
-    return count;
+    setActiveIdeaStatusFilter(prev => {
+      if (!prev) return [ideaStatus];
+      if (prev.includes(ideaStatus)) {
+        const newFilters = prev.filter(s => s !== ideaStatus);
+        return newFilters.length ? newFilters : null;
+      }
+      return [...prev, ideaStatus];
+    });
   };
 
   const handleReset = () => {
