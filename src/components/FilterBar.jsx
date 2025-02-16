@@ -16,16 +16,27 @@ function FilterBar({
 }) {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [layout, setLayout] = useState('desktop'); // 'mobile', 'tablet', or 'desktop'
   const dropdownRefs = useRef({});
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const checkLayout = () => {
+      if (window.innerWidth < 640) {
+        setLayout('mobile');
+        setIsMobile(true);
+      } else if (window.innerWidth < 1024) {
+        setLayout('tablet');
+        setIsMobile(true);
+      } else {
+        setLayout('desktop');
+        setIsMobile(false);
+      }
     };
     
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    checkLayout();
+    window.addEventListener('resize', checkLayout);
+    return () => window.removeEventListener('resize', checkLayout);
   }, []);
 
   useEffect(() => {
@@ -79,6 +90,15 @@ function FilterBar({
 
   const handleDropdownClick = (dropdown) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+  const getActiveFiltersCount = () => {
+    let count = 0;
+    if (activeSortOption !== 'match') count++;
+    if (activeStatusFilters.length < statusFilters.length) count++;
+    if (activeHoursFilter && activeHoursFilter.length < hoursFilters.length) count++;
+    if (activeIdeaStatusFilter && activeIdeaStatusFilter.length < ideaStatusFilters.length) count++;
+    return count;
   };
 
   const hasActiveFilters = activeStatusFilters.length > 0 || 
@@ -208,103 +228,133 @@ function FilterBar({
   );
 
   return (
-    <div className="bg-gray-50 border border-gray-200 rounded-xl p-2 sm:p-4 mb-6">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col md:flex-row gap-4 overflow-x-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
-            <div className="w-full min-w-[200px]">
-              <SortDropdown />
-            </div>
-            
-            <div className="w-full min-w-[200px]">
-              <Dropdown
-                id="status"
-                label="Status"
-                selection={activeStatusFilters.length === statusFilters.length 
-                  ? "All" 
-                  : `${activeStatusFilters.length} selected`}
-                isOpen={openDropdown === 'status'}
-                onClick={() => handleDropdownClick('status')}
-                content={
-                  <div className="p-2 space-y-1">
-                    {statusFilters.map((filter) => (
-                      <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={activeStatusFilters.includes(filter.id)}
-                          onChange={() => onStatusFilterChange(filter.id)}
-                          className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                }
-              />
-            </div>
-            
-            <div className="w-full min-w-[200px]">
-              <Dropdown
-                id="hours"
-                label="Hours"
-                selection={getHoursLabel()}
-                isOpen={openDropdown === 'hours'}
-                onClick={() => handleDropdownClick('hours')}
-                content={
-                  <div className="p-2 space-y-1">
-                    {hoursFilters.map((filter) => (
-                      <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={!activeHoursFilter || activeHoursFilter.includes(filter.id)}
-                          onChange={() => onHoursFilterChange(filter.id)}
-                          className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                }
-              />
-            </div>
-            
-            <div className="w-full min-w-[200px]">
-              <Dropdown
-                id="idea"
-                label="Project"
-                selection={getIdeaStatusLabel()}
-                isOpen={openDropdown === 'idea'}
-                onClick={() => handleDropdownClick('idea')}
-                content={
-                  <div className="p-2 space-y-1">
-                    {ideaStatusFilters.map((filter) => (
-                      <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={!activeIdeaStatusFilter || activeIdeaStatusFilter.includes(filter.id)}
-                          onChange={() => onIdeaStatusFilterChange(filter.id)}
-                          className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                }
-              />
+    <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden mb-4">
+      {/* Collapsible Header for Mobile and Tablet */}
+      {layout !== 'desktop' && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="w-full px-4 py-3 flex items-center justify-between bg-white"
+        >
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-gray-900">Filters</span>
+            {getActiveFiltersCount() > 0 && (
+              <span className="bg-black text-white text-sm px-2 py-0.5 rounded-full">
+                {getActiveFiltersCount()}
+              </span>
+            )}
+          </div>
+          <FiChevronDown 
+            className={`w-5 h-5 text-gray-500 transition-transform ${
+              isExpanded ? 'transform rotate-180' : ''
+            }`}
+          />
+        </button>
+      )}
+
+      {/* Filters Content */}
+      <div className={`
+        lg:p-4
+        ${layout === 'desktop' ? 'max-h-none' : isExpanded ? 'max-h-[1000px] p-4' : 'max-h-0'}
+        transition-all duration-300 ease-in-out
+        overflow-hidden
+      `}>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+              <div className="w-full min-w-[200px]">
+                <SortDropdown />
+              </div>
+              
+              <div className="w-full min-w-[200px]">
+                <Dropdown
+                  id="status"
+                  label="Status"
+                  selection={activeStatusFilters.length === statusFilters.length 
+                    ? "All" 
+                    : `${activeStatusFilters.length} selected`}
+                  isOpen={openDropdown === 'status'}
+                  onClick={() => handleDropdownClick('status')}
+                  content={
+                    <div className="p-2 space-y-1">
+                      {statusFilters.map((filter) => (
+                        <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={activeStatusFilters.includes(filter.id)}
+                            onChange={() => onStatusFilterChange(filter.id)}
+                            className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  }
+                />
+              </div>
+              
+              <div className="w-full min-w-[200px]">
+                <Dropdown
+                  id="hours"
+                  label="Hours"
+                  selection={getHoursLabel()}
+                  isOpen={openDropdown === 'hours'}
+                  onClick={() => handleDropdownClick('hours')}
+                  content={
+                    <div className="p-2 space-y-1">
+                      {hoursFilters.map((filter) => (
+                        <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={!activeHoursFilter || activeHoursFilter.includes(filter.id)}
+                            onChange={() => onHoursFilterChange(filter.id)}
+                            className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  }
+                />
+              </div>
+              
+              <div className="w-full min-w-[200px]">
+                <Dropdown
+                  id="idea"
+                  label="Project"
+                  selection={getIdeaStatusLabel()}
+                  isOpen={openDropdown === 'idea'}
+                  onClick={() => handleDropdownClick('idea')}
+                  content={
+                    <div className="p-2 space-y-1">
+                      {ideaStatusFilters.map((filter) => (
+                        <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={!activeIdeaStatusFilter || activeIdeaStatusFilter.includes(filter.id)}
+                            onChange={() => onIdeaStatusFilterChange(filter.id)}
+                            className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  }
+                />
+              </div>
             </div>
           </div>
+      
+          {hasActiveFilters && (
+            <div className="flex justify-end">
+              <button
+                onClick={onReset}
+                className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1"
+              >
+                Reset filters
+              </button>
+            </div>
+          )}
         </div>
-    
-        {hasActiveFilters && (
-          <div className="flex justify-end">
-            <button
-              onClick={onReset}
-              className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1"
-            >
-              Reset filters
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
