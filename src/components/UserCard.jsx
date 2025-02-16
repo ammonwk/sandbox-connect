@@ -72,21 +72,23 @@ function UserCard({ user }) {
           {/* activeIdeaStatusFilters */}
           <div>
             <h4 className="text-xs font-medium text-gray-500 mb-2">Experienced with:</h4>
-            <div className="flex flex-wrap gap-1">
-              {getFirstN(user.currentSkills, 2).map((skill) => (
-                <span
-                  key={skill}
-                  className={`px-2 py-1 text-sm rounded-full
-                    ${SKILLS.dev.includes(skill) 
-                      ? 'bg-indigo-100 text-indigo-700' 
-                      : 'bg-emerald-100 text-emerald-700'
-                    }`}
-                >
-                  {skill}
-                </span>
-              ))}
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-wrap gap-1">
+                {getFirstN(user.currentSkills, 2).map((skill) => (
+                  <span
+                    key={skill}
+                    className={`px-2 py-1 text-sm rounded-full text-center
+                      ${SKILLS.dev.includes(skill) 
+                        ? 'bg-indigo-100 text-indigo-700' 
+                        : 'bg-emerald-100 text-emerald-700'
+                      }`}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
               {hasMore(user.currentSkills, 2) && (
-                <span className="text-xs text-gray-500">+{user.currentSkills.length - 2}</span>
+                <span className="text-xs text-gray-500">+{user.currentSkills.length - 2} more...</span>
               )}
             </div>
           </div>
@@ -94,21 +96,23 @@ function UserCard({ user }) {
           {/* Needs */}
           <div>
             <h4 className="text-xs font-medium text-gray-500 mb-2">Looking for:</h4>
-            <div className="flex flex-wrap gap-1">
-              {getFirstN(user.desiredTeammateSkills, 2).map((skill) => (
-                <span
-                  key={`desired-${skill}`}
-                  className={`px-2 py-1 text-sm rounded-full border
-                    ${SKILLS.dev.includes(skill) 
-                      ? 'border-indigo-200 text-indigo-700' 
-                      : 'border-emerald-200 text-emerald-700'
-                    }`}
-                >
-                  {skill}
-                </span>
-              ))}
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-wrap gap-1">
+                {getFirstN(user.desiredTeammateSkills, 2).map((skill) => (
+                  <span
+                    key={`desired-${skill}`}
+                    className={`px-2 py-1 text-sm rounded-full border text-center
+                      ${SKILLS.dev.includes(skill) 
+                        ? 'border-indigo-200 text-indigo-700' 
+                        : 'border-emerald-200 text-emerald-700'
+                      }`}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
               {hasMore(user.desiredTeammateSkills, 2) && (
-                <span className="text-xs text-gray-500">+{user.desiredTeammateSkills.length - 2}</span>
+                <span className="text-xs text-gray-500">+{user.desiredTeammateSkills.length - 2} more...</span>
               )}
             </div>
           </div>

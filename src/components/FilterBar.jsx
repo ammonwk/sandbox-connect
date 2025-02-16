@@ -228,7 +228,7 @@ function FilterBar({
   );
 
   return (
-    <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden mb-4">
+    <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-visible mb-4">
       {/* Collapsible Header for Mobile and Tablet */}
       {layout !== 'desktop' && (
         <button
@@ -256,12 +256,11 @@ function FilterBar({
         lg:p-4
         ${layout === 'desktop' ? 'max-h-none' : isExpanded ? 'max-h-[1000px] p-4' : 'max-h-0'}
         transition-all duration-300 ease-in-out
-        overflow-hidden
+        overflow-visible
       `}>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col lg:flex-row gap-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-              <div className="w-full min-w-[200px]">
+         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-visible">
+             <div className="w-full min-w-[200px]">
                 <SortDropdown />
               </div>
               
@@ -341,14 +340,13 @@ function FilterBar({
                   }
                 />
               </div>
-            </div>
           </div>
       
           {hasActiveFilters && (
-            <div className="flex justify-end">
+            <div className="flex lg:flex-none">
               <button
                 onClick={onReset}
-                className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1"
+                className="text-m text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1"
               >
                 Reset filters
               </button>
