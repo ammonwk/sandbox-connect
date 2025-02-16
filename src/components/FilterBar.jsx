@@ -228,7 +228,10 @@ function FilterBar({
   );
 
   return (
-    <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-visible mb-4">
+    <div className={`
+        bg-gray-50 border border-gray-200 rounded-xl mb-4
+        ${layout === 'desktop' ? 'overflow-visible' : 'overflow-hidden'}
+    `}>
       {/* Collapsible Header for Mobile and Tablet */}
       {layout !== 'desktop' && (
         <button

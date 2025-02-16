@@ -49,7 +49,7 @@ function Navbar({ searchTerm, setSearchTerm, handleLogout }) {
               <input
                 type="text"
                 placeholder="Search teammates, skills, or keywords..."
-                className="w-96 pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="md:w-30 lg:w-96 pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
