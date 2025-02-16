@@ -12,3 +12,14 @@
            hover:bg-gray-800 transition-colors;
   }
 }
+
+@media (max-width: 640px) {
+  .dropdown-content {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95vw;
+    max-width: 400px;
+    top: 20vh;
+  }
+}
