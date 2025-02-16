@@ -29,17 +29,10 @@ function UserCard({ user }) {
   const getFirstN = (array, n) => array?.slice(0, n) || [];
   const hasMore = (array, shown) => array?.length > shown;
 
-  const getTimeAgo = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
-    
-    if (diffInHours < 24) {
-      return `${diffInHours}h ago`;
-    } else {
-      const diffInDays = Math.floor(diffInHours / 24);
-      return `${diffInDays}d ago`;
-    }
+  const ideaStatusText = {
+    one: "Set on an idea",
+    few: "Has a few ideas",
+    none: "Looking for ideas"
   };
 
   return (
@@ -71,14 +64,14 @@ function UserCard({ user }) {
         {/* Key details */}
         <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
           <span>{user.hoursPerWeek}h/week</span>
-          <span>Active {getTimeAgo(user.lastActive)}</span>
+          <span>{ideaStatusText[user.ideaStatus]}</span>
         </div>
 
-        {/* Skills Preview - Has/Needs comparison */}
+        {/* Skills Preview - activeIdeaStatusFilters/Needs comparison */}
         <div className="grid grid-cols-2 gap-4 mb-4">
-          {/* Has */}
+          {/* activeIdeaStatusFilters */}
           <div>
-            <h4 className="text-xs font-medium text-gray-500 mb-2">HAS</h4>
+            <h4 className="text-xs font-medium text-gray-500 mb-2">Experienced with:</h4>
             <div className="flex flex-wrap gap-1">
               {getFirstN(user.currentSkills, 2).map((skill) => (
                 <span
@@ -100,7 +93,7 @@ function UserCard({ user }) {
           
           {/* Needs */}
           <div>
-            <h4 className="text-xs font-medium text-gray-500 mb-2">NEEDS</h4>
+            <h4 className="text-xs font-medium text-gray-500 mb-2">Looking for:</h4>
             <div className="flex flex-wrap gap-1">
               {getFirstN(user.desiredTeammateSkills, 2).map((skill) => (
                 <span
