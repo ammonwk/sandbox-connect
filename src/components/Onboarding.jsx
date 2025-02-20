@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SKILLS } from '../data/skills';
+import { SKILLS, ROLES, determineRole } from '../data/skills';
 
 function Onboarding() {
   const [step, setStep] = useState(1);
@@ -12,6 +12,9 @@ function Onboarding() {
   const [openSection, setOpenSection] = useState('current');
   const [needsPM, setNeedsPM] = useState(false);
   const [needsDev, setNeedsDev] = useState(false);
+  const [suggestedRole, setSuggestedRole] = useState('');
+  const [selectedRole, setSelectedRole] = useState('');
+  const [isEditingRole, setIsEditingRole] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,14 +37,21 @@ function Onboarding() {
     const current = selectedSkills.current;
     const MAX_SKILLS = 5;
   
+    const newSkills = current.includes(skill)
+      ? current.filter(s => s !== skill)
+      : current.length < MAX_SKILLS 
+        ? [...current, skill]
+        : current;
+
     setSelectedSkills(prev => ({
       ...prev,
-      current: current.includes(skill)
-        ? current.filter(s => s !== skill)
-        : current.length < MAX_SKILLS 
-          ? [...current, skill]
-          : current
+      current: newSkills
     }));
+
+    // Determine and set the suggested role whenever skills change
+    const determinedRole = determineRole(newSkills);
+    setSuggestedRole(determinedRole);
+    setSelectedRole(determinedRole);
   };
 
   return (
@@ -101,45 +111,81 @@ function Onboarding() {
               </button>
               
               {openSection === 'current' && (
-                <div className="p-6 bg-white">
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="text-lg font-medium text-black mb-4">Development Skills</h4>
-                      <div className="flex flex-wrap gap-3">
-                        {SKILLS.dev.map((skill) => (
-                          <button
-                            key={skill}
-                            onClick={() => handleSkillSelection(skill)}
-                            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
-                              selectedSkills.current.includes(skill)
-                                ? 'bg-indigo-600 text-white'
-                                : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
-                            }`}
-                          >
-                            {skill}
-                          </button>
-                        ))}
+                <div>
+                  <div className="p-6 bg-white">
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="text-lg font-medium text-black mb-4">Development Skills</h4>
+                        <div className="flex flex-wrap gap-3">
+                          {SKILLS.dev.map((skill) => (
+                            <button
+                              key={skill}
+                              onClick={() => handleSkillSelection(skill)}
+                              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                                selectedSkills.current.includes(skill)
+                                  ? 'bg-indigo-600 text-white'
+                                  : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                              }`}
+                            >
+                              {skill}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h4 className="text-lg font-medium text-black mb-4">Business Skills</h4>
+                        <div className="flex flex-wrap gap-3">
+                          {SKILLS.business.map((skill) => (
+                            <button
+                              key={skill}
+                              onClick={() => handleSkillSelection(skill)}
+                              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                                selectedSkills.current.includes(skill)
+                                  ? 'bg-emerald-600 text-white'
+                                  : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                              }`}
+                            >
+                              {skill}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                    
-                    <div>
-                      <h4 className="text-lg font-medium text-black mb-4">Business Skills</h4>
-                      <div className="flex flex-wrap gap-3">
-                        {SKILLS.business.map((skill) => (
-                          <button
-                            key={skill}
-                            onClick={() => handleSkillSelection(skill)}
-                            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
-                              selectedSkills.current.includes(skill)
-                                ? 'bg-emerald-600 text-white'
-                                : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
-                            }`}
+                  </div>
+
+                  <div className="p-6 bg-gray-50 border-t border-gray-200">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-gray-700">Based on your skills:</span>
+                        {!isEditingRole ? (
+                          <span className="font-semibold text-black">
+                            You're a {selectedRole}
+                          </span>
+                        ) : (
+                          <select
+                            value={selectedRole}
+                            onChange={(e) => setSelectedRole(e.target.value)}
+                            className="ml-2 px-3 py-1 border border-gray-300 rounded-md bg-white"
                           >
-                            {skill}
-                          </button>
-                        ))}
+                            {Object.values(ROLES).map(role => (
+                              <option key={role} value={role}>{role}</option>
+                            ))}
+                          </select>
+                        )}
                       </div>
+                      <button
+                        onClick={() => setIsEditingRole(!isEditingRole)}
+                        className="text-sm text-indigo-600 hover:text-indigo-800"
+                      >
+                        {isEditingRole ? 'Save' : 'Change Role'}
+                      </button>
                     </div>
+                    {selectedSkills.current.length === 0 && (
+                      <p className="mt-2 text-sm text-gray-600">
+                        Select some skills above to get a role suggestion
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
