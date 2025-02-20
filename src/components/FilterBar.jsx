@@ -17,7 +17,7 @@ function FilterBar({
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [layout, setLayout] = useState('desktop'); // 'mobile', 'tablet', or 'desktop'
+  const [layout, setLayout] = useState('desktop');
   const dropdownRefs = useRef({});
 
   useEffect(() => {
@@ -46,7 +46,6 @@ function FilterBar({
           setOpenDropdown(null);
         }
       };
-
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }
@@ -112,16 +111,16 @@ function FilterBar({
       ref={el => dropdownRefs.current['sort'] = el}
     >
       <div className="flex items-center space-x-2 px-2 py-1">
-        <span className="text-sm font-medium text-gray-700 whitespace-nowrap">Sort:</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sort:</span>
         <div className="flex flex-1 items-center space-x-2">
           <button
             onClick={() => handleDropdownClick('sort')}
-            className="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg flex items-center justify-between hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-20 min-w-0"
+            className="flex-1 px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg flex items-center justify-between hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-opacity-20 min-w-0"
           >
-            <span className="text-sm text-gray-900">
+            <span className="text-sm text-gray-900 dark:text-white">
               {sortOptions.find(opt => opt.id === activeSortOption)?.label}
             </span>
-            <FiChevronDown className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ml-2 ${
+            <FiChevronDown className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0 ml-2 ${
               openDropdown === 'sort' ? 'transform rotate-180' : ''
             }`} />
           </button>
@@ -131,7 +130,7 @@ function FilterBar({
               id: activeSortOption, 
               direction: activeSortDirection === 'asc' ? 'desc' : 'asc' 
             })}
-            className="px-2 py-1.5 bg-white border border-gray-200 rounded-lg hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-20"
+            className="px-2 py-1.5 bg-white dark:bg-gray-700 text-black dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-opacity-20"
             aria-label="Toggle sort direction"
           >
             {activeSortDirection === 'asc' ? '↑' : '↓'}
@@ -140,7 +139,7 @@ function FilterBar({
       </div>
 
       {!isMobile && openDropdown === 'sort' && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50">
           {sortOptions.map((option) => (
             <button
               key={option.id}
@@ -151,11 +150,13 @@ function FilterBar({
                 });
                 setOpenDropdown(null);
               }}
-              className={`flex items-center space-x-2 w-full px-3 py-2 hover:bg-gray-50 ${
-                activeSortOption === option.id ? 'text-black font-medium' : 'text-gray-600'
+              className={`flex items-center space-x-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-600 ${
+                activeSortOption === option.id 
+                  ? 'text-black dark:text-white font-medium' 
+                  : 'text-gray-600 dark:text-gray-300'
               }`}
             >
-              <span className="w-6 text-center text-gray-400">{option.icon}</span>
+              <span className="w-6 text-center text-gray-400 dark:text-gray-500">{option.icon}</span>
               <span>{option.label}</span>
             </button>
           ))}
@@ -179,11 +180,13 @@ function FilterBar({
                   });
                   setOpenDropdown(null);
                 }}
-                className={`flex items-center space-x-3 w-full p-3 rounded-lg hover:bg-gray-50 ${
-                  activeSortOption === option.id ? 'text-black font-medium bg-gray-50' : 'text-gray-600'
+                className={`flex items-center space-x-3 w-full p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 ${
+                  activeSortOption === option.id 
+                    ? 'text-black dark:text-white font-medium bg-gray-50 dark:bg-gray-600' 
+                    : 'text-gray-600 dark:text-gray-300'
                 }`}
               >
-                <span className="w-6 text-center text-gray-400">{option.icon}</span>
+                <span className="w-6 text-center text-gray-400 dark:text-gray-500">{option.icon}</span>
                 <span>{option.label}</span>
               </button>
             ))}
@@ -199,22 +202,21 @@ function FilterBar({
       ref={el => dropdownRefs.current[id] = el}
     >
       <div className="flex items-center space-x-2 px-2 py-1">
-        <span className="text-sm font-medium text-gray-700 whitespace-nowrap">{label}:</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">{label}:</span>
         <button
           onClick={onClick}
-          className="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg flex items-center justify-between hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-20 min-w-0"
+          className="flex-1 px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg flex items-center justify-between hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-opacity-20 min-w-0"
         >
-          <span className="text-sm text-gray-900 truncate max-w-[150px]">{selection}</span>
-          <FiChevronDown className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ml-2 ${isOpen ? 'transform rotate-180' : ''}`} />
+          <span className="text-sm text-gray-900 dark:text-white truncate max-w-[150px]">{selection}</span>
+          <FiChevronDown className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0 ml-2 ${isOpen ? 'transform rotate-180' : ''}`} />
         </button>
       </div>
       
       {!isMobile && isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50">
           {content}
         </div>
       )}
-
       {isMobile && (
         <MobileDropdown
           isOpen={isOpen}
@@ -229,127 +231,125 @@ function FilterBar({
 
   return (
     <div className={`
-        bg-gray-50 border border-gray-200 rounded-xl mb-4
-        ${layout === 'desktop' ? 'overflow-visible' : 'overflow-hidden'}
+      bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl mb-4
+      ${layout === 'desktop' ? 'overflow-visible' : 'overflow-hidden'}
     `}>
-      {/* Collapsible Header for Mobile and Tablet */}
       {layout !== 'desktop' && (
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full px-4 py-3 flex items-center justify-between bg-white"
+          className="w-full px-4 py-3 flex items-center justify-between bg-white dark:bg-gray-800"
         >
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-900">Filters</span>
+            <span className="font-medium text-gray-900 dark:text-white">Filters</span>
             {getActiveFiltersCount() > 0 && (
-              <span className="bg-black text-white text-sm px-2 py-0.5 rounded-full">
+              <span className="bg-black dark:bg-white text-white dark:text-black text-sm px-2 py-0.5 rounded-full">
                 {getActiveFiltersCount()}
               </span>
             )}
           </div>
           <FiChevronDown 
-            className={`w-5 h-5 text-gray-500 transition-transform ${
+            className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform ${
               isExpanded ? 'transform rotate-180' : ''
             }`}
           />
         </button>
       )}
 
-      {/* Filters Content */}
       <div className={`
         lg:p-4
         ${layout === 'desktop' ? 'max-h-none' : isExpanded ? 'max-h-[1000px] p-4' : 'max-h-0'}
         transition-all duration-300 ease-in-out
         overflow-visible
       `}>
-         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-visible">
-             <div className="w-full min-w-[200px]">
-                <SortDropdown />
-              </div>
-              
-              <div className="w-full min-w-[200px]">
-                <Dropdown
-                  id="status"
-                  label="Status"
-                  selection={activeStatusFilters.length === statusFilters.length 
-                    ? "All" 
-                    : `${activeStatusFilters.length} selected`}
-                  isOpen={openDropdown === 'status'}
-                  onClick={() => handleDropdownClick('status')}
-                  content={
-                    <div className="p-2 space-y-1">
-                      {statusFilters.map((filter) => (
-                        <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={activeStatusFilters.includes(filter.id)}
-                            onChange={() => onStatusFilterChange(filter.id)}
-                            className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
-                        </label>
-                      ))}
-                    </div>
-                  }
-                />
-              </div>
-              
-              <div className="w-full min-w-[200px]">
-                <Dropdown
-                  id="hours"
-                  label="Hours"
-                  selection={getHoursLabel()}
-                  isOpen={openDropdown === 'hours'}
-                  onClick={() => handleDropdownClick('hours')}
-                  content={
-                    <div className="p-2 space-y-1">
-                      {hoursFilters.map((filter) => (
-                        <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={!activeHoursFilter || activeHoursFilter.includes(filter.id)}
-                            onChange={() => onHoursFilterChange(filter.id)}
-                            className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
-                        </label>
-                      ))}
-                    </div>
-                  }
-                />
-              </div>
-              
-              <div className="w-full min-w-[200px]">
-                <Dropdown
-                  id="idea"
-                  label="Project"
-                  selection={getIdeaStatusLabel()}
-                  isOpen={openDropdown === 'idea'}
-                  onClick={() => handleDropdownClick('idea')}
-                  content={
-                    <div className="p-2 space-y-1">
-                      {ideaStatusFilters.map((filter) => (
-                        <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 rounded cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={!activeIdeaStatusFilter || activeIdeaStatusFilter.includes(filter.id)}
-                            onChange={() => onIdeaStatusFilterChange(filter.id)}
-                            className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">{filter.label}</span>
-                        </label>
-                      ))}
-                    </div>
-                  }
-                />
-              </div>
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-visible">
+            <div className="w-full min-w-[200px]">
+              <SortDropdown />
+            </div>
+            
+            <div className="w-full min-w-[200px]">
+              <Dropdown
+                id="status"
+                label="Status"
+                selection={activeStatusFilters.length === statusFilters.length 
+                  ? "All" 
+                  : `${activeStatusFilters.length} selected`}
+                isOpen={openDropdown === 'status'}
+                onClick={() => handleDropdownClick('status')}
+                content={
+                  <div className="p-2 space-y-1">
+                    {statusFilters.map((filter) => (
+                      <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={activeStatusFilters.includes(filter.id)}
+                          onChange={() => onStatusFilterChange(filter.id)}
+                          className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-black dark:text-white focus:ring-black dark:focus:ring-white"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">{filter.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                }
+              />
+            </div>
+            
+            <div className="w-full min-w-[200px]">
+              <Dropdown
+                id="hours"
+                label="Hours"
+                selection={getHoursLabel()}
+                isOpen={openDropdown === 'hours'}
+                onClick={() => handleDropdownClick('hours')}
+                content={
+                  <div className="p-2 space-y-1">
+                    {hoursFilters.map((filter) => (
+                      <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!activeHoursFilter || activeHoursFilter.includes(filter.id)}
+                          onChange={() => onHoursFilterChange(filter.id)}
+                          className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-black dark:text-white focus:ring-black dark:focus:ring-white"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">{filter.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                }
+              />
+            </div>
+            
+            <div className="w-full min-w-[200px]">
+              <Dropdown
+                id="idea"
+                label="Project"
+                selection={getIdeaStatusLabel()}
+                isOpen={openDropdown === 'idea'}
+                onClick={() => handleDropdownClick('idea')}
+                content={
+                  <div className="p-2 space-y-1">
+                    {ideaStatusFilters.map((filter) => (
+                      <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!activeIdeaStatusFilter || activeIdeaStatusFilter.includes(filter.id)}
+                          onChange={() => onIdeaStatusFilterChange(filter.id)}
+                          className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-black dark:text-white focus:ring-black dark:focus:ring-white"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">{filter.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                }
+              />
+            </div>
           </div>
       
           {hasActiveFilters && (
             <div className="flex lg:flex-none">
               <button
                 onClick={onReset}
-                className="text-m text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1"
+                className="text-m text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-1"
               >
                 Reset filters
               </button>

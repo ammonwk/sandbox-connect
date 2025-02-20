@@ -31,7 +31,6 @@ function Dashboard() {
   }, []);
 
   const handleLogout = () => {
-    // Here you would typically clear any auth state/tokens
     navigate('/sandbox-headstart/');
   };
 
@@ -60,32 +59,29 @@ function Dashboard() {
   };
 
   const filteredUsers = sortUsers(userData.users.filter(user => {
-    // Search matching logic (unchanged)
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.intro.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.currentSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase())) ||
                          user.desiredTeammateSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
     
-    // Updated team needs filtering logic
     const matchesStatus = activeStatusFilters.some(status => {
-        if (status === 'looking') return user.teamNeeds.needsPM || user.teamNeeds.needsDev;
-        if (status === 'open') return user.teamNeeds.needsPM || user.teamNeeds.needsDev;
-        if (status === 'closed') return !user.teamNeeds.needsPM && !user.teamNeeds.needsDev;
-        return false;
+      if (status === 'looking') return user.teamNeeds.needsPM || user.teamNeeds.needsDev;
+      if (status === 'open') return user.teamNeeds.needsPM || user.teamNeeds.needsDev;
+      if (status === 'closed') return !user.teamNeeds.needsPM && !user.teamNeeds.needsDev;
+      return false;
     });
     
-    // Hours and idea status filtering (unchanged)
     const matchesHours = !activeHoursFilter || activeHoursFilter.length === 0 ? true :
     activeHoursFilter.some(range => {
-        if (range === '20-30') return user.hoursPerWeek >= 20 && user.hoursPerWeek <= 30;
-        if (range === '31-40') return user.hoursPerWeek >= 31 && user.hoursPerWeek <= 40;
-        if (range === '41-50') return user.hoursPerWeek >= 41 && user.hoursPerWeek <= 50;
-        if (range === '50+') return user.hoursPerWeek > 50;
-        return false;
+      if (range === '20-30') return user.hoursPerWeek >= 20 && user.hoursPerWeek <= 30;
+      if (range === '31-40') return user.hoursPerWeek >= 31 && user.hoursPerWeek <= 40;
+      if (range === '41-50') return user.hoursPerWeek >= 41 && user.hoursPerWeek <= 50;
+      if (range === '50+') return user.hoursPerWeek > 50;
+      return false;
     });
 
     const matchesIdeaStatus = !activeIdeaStatusFilter || activeIdeaStatusFilter.length === 0 ? true :
-        activeIdeaStatusFilter.includes(user.ideaStatus);
+      activeIdeaStatusFilter.includes(user.ideaStatus);
     
     return matchesSearch && matchesStatus && matchesHours && matchesIdeaStatus;
   }));
@@ -128,7 +124,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar handleLogout={handleLogout} />
       
       <div className="container mx-auto px-4 py-8">
@@ -136,8 +132,10 @@ function Dashboard() {
           <div className="flex items-baseline justify-between">
             <div className="mb-4 w-full">
               <div className="flex items-baseline justify-between">
-                <h1 className="text-3xl font-bold text-black">Find Your Team</h1>
-                <p className="text-gray-600 text-right">
+                <h1 className="text-3xl font-bold text-black dark:text-gray-300">
+                  Find Your Team
+                </h1>
+                <p className="text-gray-600 dark:text-gray-300 text-right">
                   Connect with potential teammates who complement your skills
                 </p>
               </div>
@@ -159,7 +157,7 @@ function Dashboard() {
         />
 
         <div className="mb-6">
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-300">
             Showing {filteredUsers.length} {filteredUsers.length === 1 ? 'result' : 'results'}
             {searchTerm && ` for "${searchTerm}"`}
           </p>
@@ -172,9 +170,11 @@ function Dashboard() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-gray-100">
-            <h3 className="text-lg font-medium text-gray-900">No matches found</h3>
-            <p className="text-gray-600 mt-2">
+          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+              No matches found
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 mt-2">
               Try adjusting your search or filters to find more teammates
             </p>
           </div>

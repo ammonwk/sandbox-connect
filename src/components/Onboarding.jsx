@@ -57,49 +57,51 @@ function Onboarding() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">
       <div className="mb-12">
-        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
           <div
-            className="h-full bg-black rounded-full transition-all duration-500 ease-out"
+            className="h-full bg-black dark:bg-white rounded-full transition-all duration-500 ease-out"
             style={{ width: `${((step - 1) / 3) * 100 + 20}%` }}
           />
         </div>
-        <div className="flex justify-between mt-2 text-sm text-gray-600">
+        <div className="flex justify-between mt-2 text-sm text-gray-600 dark:text-gray-400">
           <span>Start</span>
           <span>Profile</span>
           <span>Complete</span>
         </div>
       </div>
-      <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100">
+
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8 border border-gray-100 dark:border-gray-700">
         {step === 1 && (
           <div className="space-y-6 text-center">
-            <h2 className="text-4xl font-bold text-black">Welcome, Chris</h2>
-            <p className="text-xl text-gray-700">
+            <h2 className="text-4xl font-bold text-black dark:text-white">Welcome, Chris</h2>
+            <p className="text-xl text-gray-700 dark:text-gray-300">
               Let's get your profile filled out...
             </p>
-            <div className="inline-block bg-gray-100 text-black px-4 py-2 rounded-full text-sm">
+            <div className="inline-block bg-gray-100 dark:bg-gray-700 text-black dark:text-white px-4 py-2 rounded-full text-sm">
               This will take about: 3 minutes
             </div>
           </div>
         )}
+
         {step === 2 && (
           <div className="space-y-8">
-            <h2 className="text-3xl font-bold text-black mb-8">
+            <h2 className="text-3xl font-bold text-black dark:text-white mb-8">
               Let's find your perfect team match
             </h2>
             
-            <div className="border border-gray-200 rounded-xl overflow-hidden">
+            <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
               <button
                 onClick={() => setOpenSection(openSection === 'current' ? null : 'current')}
-                className="w-full px-6 py-4 flex justify-between items-center bg-gray-50 hover:bg-gray-100"
+                className="w-full px-6 py-4 flex justify-between items-center bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
               >
-                <span className="text-xl font-semibold text-black">
+                <span className="text-xl font-semibold text-black dark:text-white">
                   Skills you already have
                 </span>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
                   {selectedSkills.current.length}/5 selected
                 </span>
                 <svg
-                  className={`w-6 h-6 transform transition-transform ${
+                  className={`w-6 h-6 transform transition-transform text-gray-500 dark:text-gray-400 ${
                     openSection === 'current' ? 'rotate-180' : ''
                   }`}
                   fill="none"
@@ -112,10 +114,10 @@ function Onboarding() {
               
               {openSection === 'current' && (
                 <div>
-                  <div className="p-6 bg-white">
+                  <div className="p-6 bg-white dark:bg-gray-800">
                     <div className="space-y-6">
                       <div>
-                        <h4 className="text-lg font-medium text-black mb-4">Development Skills</h4>
+                        <h4 className="text-lg font-medium text-black dark:text-white mb-4">Development Skills</h4>
                         <div className="flex flex-wrap gap-3">
                           {SKILLS.dev.map((skill) => (
                             <button
@@ -123,8 +125,8 @@ function Onboarding() {
                               onClick={() => handleSkillSelection(skill)}
                               className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
                                 selectedSkills.current.includes(skill)
-                                    ? 'bg-role-technical text-white'
-                                    : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                                  ? 'bg-role-technical dark:bg-blue-600 text-white'
+                                  : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
                               }`}
                             >
                               {skill}
@@ -134,7 +136,7 @@ function Onboarding() {
                       </div>
                       
                       <div>
-                        <h4 className="text-lg font-medium text-black mb-4">Business Skills</h4>
+                        <h4 className="text-lg font-medium text-black dark:text-white mb-4">Business Skills</h4>
                         <div className="flex flex-wrap gap-3">
                           {SKILLS.business.map((skill) => (
                             <button
@@ -143,7 +145,7 @@ function Onboarding() {
                               className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
                                 selectedSkills.current.includes(skill)
                                   ? 'bg-emerald-600 text-white'
-                                  : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                                  : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
                               }`}
                             >
                               {skill}
@@ -154,19 +156,19 @@ function Onboarding() {
                     </div>
                   </div>
 
-                  <div className="p-6 bg-gray-50 border-t border-gray-200">
+                  <div className="p-6 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <span className="text-gray-700">Based on your skills:</span>
+                        <span className="text-gray-700 dark:text-gray-300">Based on your skills:</span>
                         {!isEditingRole ? (
-                          <span className="font-semibold text-black">
+                          <span className="font-semibold text-black dark:text-white">
                             You're a {selectedRole}
                           </span>
                         ) : (
                           <select
                             value={selectedRole}
                             onChange={(e) => setSelectedRole(e.target.value)}
-                            className="ml-2 px-3 py-1 border border-gray-300 rounded-md bg-white"
+                            className="ml-2 px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white"
                           >
                             {Object.values(ROLES).map(role => (
                               <option key={role} value={role}>{role}</option>
@@ -176,13 +178,13 @@ function Onboarding() {
                       </div>
                       <button
                         onClick={() => setIsEditingRole(!isEditingRole)}
-                        className="text-sm text-indigo-600 hover:text-indigo-800"
+                        className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
                       >
                         {isEditingRole ? 'Save' : 'Change Role'}
                       </button>
                     </div>
                     {selectedSkills.current.length === 0 && (
-                      <p className="mt-2 text-sm text-gray-600">
+                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                         Select some skills above to get a role suggestion
                       </p>
                     )}
@@ -192,10 +194,11 @@ function Onboarding() {
             </div>
           </div>
         )}
+
         {step === 3 && (
           <div className="space-y-12">
             <div>
-              <h3 className="text-xl font-semibold text-black mb-6">
+              <h3 className="text-xl font-semibold text-black dark:text-white mb-6">
                 Realistically how many hours a week do you plan on dedicating to your start up?
               </h3>
               <div className="space-y-4">
@@ -206,29 +209,30 @@ function Onboarding() {
                   step="5"
                   value={hoursPerWeek}
                   onChange={(e) => setHoursPerWeek(e.target.value)}
-                  className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-black"
+                  className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-black dark:[&::-webkit-slider-thumb]:bg-white"
                 />
-                <div className="flex justify-between text-sm text-gray-600">
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                   <span>15 hours</span>
-                  <div className="bg-gray-100 px-3 py-1 rounded-full text-black font-bold text-lg">
+                  <div className="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-black dark:text-white font-bold text-lg">
                     {hoursPerWeek}{hoursPerWeek == 65 && '+'} hours 
                   </div>
                   <span>65 hours</span>
                 </div>
-                <p className="text-gray-700 italic text-center">
+                <p className="text-gray-700 dark:text-gray-300 italic text-center">
                   This helps match you with teammates who share similar commitment levels
                 </p>
               </div>
             </div>
+
             <div>
-              <h3 className="text-xl font-semibold text-black mb-6">
+              <h3 className="text-xl font-semibold text-black dark:text-white mb-6">
                 Do you already have a startup idea in mind?
               </h3>
               <div className="flex justify-center w-full overflow-x-visible">
-                <div className="inline-flex rounded-full bg-gray-100 p-1 relative" 
+                <div className="inline-flex rounded-full bg-gray-100 dark:bg-gray-700 p-1 relative" 
                     style={{"--min-button-width": "clamp(5.5rem, 28vw, 8rem)"}}>
                   <div 
-                    className="absolute h-[calc(100%-8px)] top-1 transition-all duration-150 ease-in-out bg-black rounded-full"
+                    className="absolute h-[calc(100%-8px)] top-1 transition-all duration-150 ease-in-out bg-black dark:bg-white rounded-full"
                     style={{
                       width: 'var(--min-button-width)',
                       left: `calc(${
@@ -250,8 +254,8 @@ function Onboarding() {
                         transition-all duration-200 w-[var(--min-button-width)] text-center relative z-10 
                         leading-tight ${
                         ideaStatus === status.toLowerCase()
-                          ? 'text-white'
-                          : 'text-gray-700 hover:text-gray-900'
+                          ? 'text-white dark:text-black'
+                          : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100'
                       }`}
                     >
                       {status}
@@ -260,8 +264,9 @@ function Onboarding() {
                 </div>
               </div>
             </div>
+
             <div>
-              <h3 className="text-xl font-semibold text-black mb-6">
+              <h3 className="text-xl font-semibold text-black dark:text-white mb-6">
                 What are you looking for in your team?
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -269,22 +274,22 @@ function Onboarding() {
                   onClick={() => setNeedsPM(!needsPM)}
                   className={`flex items-center px-6 py-4 rounded-xl transition-all duration-200 ${
                     needsPM 
-                      ? 'bg-gray-50 border-2 border-black' 
-                      : 'bg-white border border-gray-200 hover:border-gray-400'
+                      ? 'bg-gray-50 dark:bg-gray-700 border-2 border-black dark:border-white' 
+                      : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600'
                   }`}
                 >
                   <div className={`h-5 w-5 rounded flex items-center justify-center border transition-colors duration-200 ${
                     needsPM 
-                      ? 'bg-black border-black' 
-                      : 'border-gray-300'
+                      ? 'bg-black dark:bg-white border-black dark:border-white' 
+                      : 'border-gray-300 dark:border-gray-600'
                   }`}>
                     {needsPM && (
-                      <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
+                      <svg className="w-3 h-3 text-white dark:text-black" viewBox="0 0 12 12" fill="none">
                         <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     )}
                   </div>
-                  <span className={`ml-3 ${needsPM ? 'text-black' : 'text-gray-700'}`}>
+                  <span className={`ml-3 ${needsPM ? 'text-black dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>
                     I'm looking for a Project Manager
                   </span>
                 </button>
@@ -293,28 +298,27 @@ function Onboarding() {
                   onClick={() => setNeedsDev(!needsDev)}
                   className={`flex items-center px-6 py-4 rounded-xl transition-all duration-200 ${
                     needsDev 
-                      ? 'bg-gray-50 border-2 border-black' 
-                      : 'bg-white border border-gray-200 hover:border-gray-400'
+                      ? 'bg-gray-50 dark:bg-gray-700 border-2 border-black dark:border-white' 
+                      : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600'
                   }`}
                 >
                   <div className={`h-5 w-5 rounded flex items-center justify-center border transition-colors duration-200 ${
                     needsDev 
-                      ? 'bg-black border-black' 
-                      : 'border-gray-300'
+                      ? 'bg-black dark:bg-white border-black dark:border-white' 
+                      : 'border-gray-300 dark:border-gray-600'
                   }`}>
                     {needsDev && (
-                      <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
+                      <svg className="w-3 h-3 text-white dark:text-black" viewBox="0 0 12 12" fill="none">
                         <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     )}
                   </div>
-                  <span className={`ml-3 ${needsDev ? 'text-black' : 'text-gray-700'}`}>
+                  <span className={`ml-3 ${needsDev ? 'text-black dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>
                     I'm looking for a Developer
                   </span>
                 </button>
               </div>
-
-              <div className="mt-6 text-sm text-gray-600 bg-gray-50 px-6 py-4 rounded-xl">
+              <div className="mt-6 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-6 py-4 rounded-xl">
                 Status: {!needsPM && !needsDev ? "My team is full" : 
                         [
                           needsPM && "I'm looking for a PM",
@@ -325,6 +329,7 @@ function Onboarding() {
           </div>
         )}
       </div>
+
       <div className="flex gap-4">
         {step > 1 && (
           <button
@@ -332,27 +337,27 @@ function Onboarding() {
               setStep(step - 1);
               scrollToTop();
             }}
-            className="w-1/3 bg-gray-100 text-black py-4 rounded-xl hover:bg-gray-200 transition-colors duration-200 text-lg font-medium"
+            className="w-1/3 bg-gray-100 dark:bg-gray-800 text-black dark:text-white py-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 text-lg font-medium"
+            >
+              Back
+            </button>
+          )}
+          <button
+            onClick={() => {
+              if (step < 3) {
+                setStep(step + 1);
+                scrollToTop();
+              } else {
+                navigate('/sandbox-headstart/dashboard');
+              }
+            }}
+            className={`${step > 1 ? 'w-2/3' : 'w-full'} bg-black dark:bg-white text-white dark:text-black py-4 rounded-xl hover:bg-gray-900 dark:hover:bg-gray-100 transition-colors duration-200 text-lg font-medium`}
           >
-            Back
+            {step === 3 ? 'Complete Profile' : 'Continue'}
           </button>
-        )}
-        <button
-          onClick={() => {
-            if (step < 3) {
-              setStep(step + 1);
-              scrollToTop();
-            } else {
-              navigate('/sandbox-headstart/dashboard');
-            }
-          }}
-          className={`${step > 1 ? 'w-2/3' : 'w-full'} bg-black hover:bg-gray-900 text-white py-4 rounded-xl transition-colors duration-200 text-lg font-medium`}
-        >
-          {step === 3 ? 'Complete Profile' : 'Continue'}
-        </button>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
-export default Onboarding;
+  export default Onboarding;

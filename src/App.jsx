@@ -4,20 +4,23 @@ import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
 import UserProfile from './components/UserProfile';
 import { FilterProvider } from './context/FilterContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
   return (
     <Router>
-      <FilterProvider>
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-          <Routes>
-            <Route path="sandbox-headstart/" element={<LandingPage />} />
-            <Route path="sandbox-headstart/onboarding" element={<Onboarding />} />
-            <Route path="sandbox-headstart/dashboard" element={<Dashboard />} />
-            <Route path="sandbox-headstart/profile/:id" element={<UserProfile />} />
-          </Routes>
-        </div>
-      </FilterProvider>
+      <ThemeProvider>
+        <FilterProvider>
+          <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+            <Routes>
+              <Route path="sandbox-headstart/" element={<LandingPage />} />
+              <Route path="sandbox-headstart/onboarding" element={<Onboarding />} />
+              <Route path="sandbox-headstart/dashboard" element={<Dashboard />} />
+              <Route path="sandbox-headstart/profile/:id" element={<UserProfile />} />
+            </Routes>
+          </div>
+        </FilterProvider>
+      </ThemeProvider>
     </Router>
   );
 }
