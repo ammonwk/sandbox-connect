@@ -5,25 +5,23 @@ import { SKILLS } from '../data/skills';
 function Onboarding() {
   const [step, setStep] = useState(1);
   const [selectedSkills, setSelectedSkills] = useState({
-    current: [],
-    toLearn: [],
-    teammates: []
+    current: []
   });
   const [hoursPerWeek, setHoursPerWeek] = useState(40);
   const [ideaStatus, setIdeaStatus] = useState('a few of them');
   const [openSection, setOpenSection] = useState('current');
-  const [teamStatus, setTeamStatus] = useState('looking');
-  const [isValid, setIsValid] = useState(false);
+  const [needsPM, setNeedsPM] = useState(false);
+  const [needsDev, setNeedsDev] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => { // Scroll to top on load
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   }, []);
 
-  const scrollToTop = () => { // Scroll to top on step change
+  const scrollToTop = () => {
     setTimeout(() => {
       window.scrollTo({
         top: 0,
@@ -32,39 +30,18 @@ function Onboarding() {
     }, 100);
   };
 
-  const validateSkills = () => {
-    const hasCurrentSkill = selectedSkills.current.length >= 1;
-    const hasTeammateSkill = selectedSkills.teammates.length >= 1;
-    setIsValid(hasCurrentSkill && hasTeammateSkill);
-  };
-
-  const handleSkillSelection = (category, skill) => {
-    const current = selectedSkills[category];
+  const handleSkillSelection = (skill) => {
+    const current = selectedSkills.current;
     const MAX_SKILLS = 5;
   
-    setSelectedSkills(prev => {
-      const updated = {
-        ...prev,
-        [category]: current.includes(skill)
-          ? current.filter(s => s !== skill)
-          : current.length < MAX_SKILLS 
-            ? [...current, skill]
-            : current
-      };
-      // Validate after updating
-      setTimeout(() => {
-        const hasCurrentSkill = updated.current.length >= 1;
-        const hasTeammateSkill = updated.teammates.length >= 1;
-        setIsValid(hasCurrentSkill && hasTeammateSkill);
-      }, 0);
-      return updated;
-    });
-  };
-
-  const getSituationText = (value) => {
-    if (value < 33) return "I have a specific startup idea that I'm pretty set on.";
-    if (value < 66) return "I have some ideas, but I'm not committed to any specific one yet.";
-    return "I don't really have any ideas yet.";
+    setSelectedSkills(prev => ({
+      ...prev,
+      current: current.includes(skill)
+        ? current.filter(s => s !== skill)
+        : current.length < MAX_SKILLS 
+          ? [...current, skill]
+          : current
+    }));
   };
 
   return (
@@ -82,7 +59,6 @@ function Onboarding() {
           <span>Complete</span>
         </div>
       </div>
-
       <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100">
         {step === 1 && (
           <div className="space-y-6 text-center">
@@ -95,93 +71,81 @@ function Onboarding() {
             </div>
           </div>
         )}
-
         {step === 2 && (
           <div className="space-y-8">
             <h2 className="text-3xl font-bold text-black mb-8">
               Let's find your perfect team match
             </h2>
             
-            {['current', 'toLearn', 'teammates'].map((category) => (
-              <div className="border border-gray-200 rounded-xl overflow-hidden" key={category}>
-                <button
-                  onClick={() => setOpenSection(openSection === category ? null : category)}
-                  className="w-full px-6 py-4 flex justify-between items-center bg-gray-50 hover:bg-gray-100"
+            <div className="border border-gray-200 rounded-xl overflow-hidden">
+              <button
+                onClick={() => setOpenSection(openSection === 'current' ? null : 'current')}
+                className="w-full px-6 py-4 flex justify-between items-center bg-gray-50 hover:bg-gray-100"
+              >
+                <span className="text-xl font-semibold text-black">
+                  Skills you already have
+                </span>
+                <span className="text-sm text-gray-600">
+                  {selectedSkills.current.length}/5 selected
+                </span>
+                <svg
+                  className={`w-6 h-6 transform transition-transform ${
+                    openSection === 'current' ? 'rotate-180' : ''
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <span className="text-xl font-semibold text-black">
-                    {category === 'current' && "Skills you already have"}
-                    {category === 'toLearn' && "Skills you want to learn"}
-                    {category === 'teammates' && "Skills you want in teammates"}
-                  </span>
-                  <span className="text-sm text-gray-600">
-                    {selectedSkills[category].length}/5 selected
-                  </span>
-                  <svg
-                    className={`w-6 h-6 transform transition-transform ${
-                      openSection === category ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                
-                {openSection === category && (
-                  <div className="p-6 bg-white">
-                    <div className="space-y-6">
-                      <div>
-                        <h4 className="text-lg font-medium text-black mb-4">Development Skills</h4>
-                        <div className="flex flex-wrap gap-3">
-                          {SKILLS.dev.map((skill) => (
-                            <button
-                              key={skill}
-                              onClick={() => handleSkillSelection(category, skill)}
-                              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
-                                selectedSkills[category].includes(skill)
-                                  ? 'bg-indigo-600 text-white'
-                                  : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
-                              }`}
-                            >
-                              {skill}
-                            </button>
-                          ))}
-                        </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {openSection === 'current' && (
+                <div className="p-6 bg-white">
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="text-lg font-medium text-black mb-4">Development Skills</h4>
+                      <div className="flex flex-wrap gap-3">
+                        {SKILLS.dev.map((skill) => (
+                          <button
+                            key={skill}
+                            onClick={() => handleSkillSelection(skill)}
+                            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                              selectedSkills.current.includes(skill)
+                                ? 'bg-indigo-600 text-white'
+                                : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                            }`}
+                          >
+                            {skill}
+                          </button>
+                        ))}
                       </div>
-                      
-                      <div>
-                        <h4 className="text-lg font-medium text-black mb-4">Business Skills</h4>
-                        <div className="flex flex-wrap gap-3">
-                          {SKILLS.business.map((skill) => (
-                            <button
-                              key={skill}
-                              onClick={() => handleSkillSelection(category, skill)}
-                              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
-                                selectedSkills[category].includes(skill)
-                                  ? 'bg-emerald-600 text-white'
-                                  : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
-                              }`}
-                            >
-                              {skill}
-                            </button>
-                          ))}
-                        </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-lg font-medium text-black mb-4">Business Skills</h4>
+                      <div className="flex flex-wrap gap-3">
+                        {SKILLS.business.map((skill) => (
+                          <button
+                            key={skill}
+                            onClick={() => handleSkillSelection(skill)}
+                            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
+                              selectedSkills.current.includes(skill)
+                                ? 'bg-emerald-600 text-white'
+                                : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                            }`}
+                          >
+                            {skill}
+                          </button>
+                        ))}
                       </div>
                     </div>
                   </div>
-                )}
-              </div>
-            ))}
-            
-            {!isValid && (
-              <p className="text-red-600 text-sm">
-                Please select at least one current skill and one desired teammate skill to continue
-              </p>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         )}
-
         {step === 3 && (
           <div className="space-y-12">
             <div>
@@ -210,7 +174,6 @@ function Onboarding() {
                 </p>
               </div>
             </div>
-
             <div>
               <h3 className="text-xl font-semibold text-black mb-6">
                 Do you already have a startup idea in mind?
@@ -251,47 +214,71 @@ function Onboarding() {
                 </div>
               </div>
             </div>
-
             <div>
               <h3 className="text-xl font-semibold text-black mb-6">
-                What's your team situation?
+                What are you looking for in your team?
               </h3>
-              <div className="flex justify-center w-full overflow-x-visible">
-                <div className="inline-flex rounded-full bg-gray-100 p-1 relative" 
-                    style={{"--min-button-width": "clamp(5.5rem, 28vw, 8rem)"}}>
-                  <div 
-                    className="absolute h-[calc(100%-8px)] top-1 transition-all duration-150 ease-in-out bg-black rounded-full"
-                    style={{
-                      width: 'var(--min-button-width)',
-                      left: `calc(${
-                        teamStatus === 'looking' ? '0' :
-                        teamStatus === 'found some' ? '1' :
-                        '2'
-                      } * var(--min-button-width) + 4px)`
-                    }}
-                  />
-                  {['Looking', 'Found Some', 'Complete'].map((status) => (
-                    <button
-                      key={status}
-                      onClick={() => setTeamStatus(status.toLowerCase())}
-                      className={`px-4 sm:px-4 py-2 sm:py-3 rounded-full text-s sm:text-sm font-medium 
-                        transition-all duration-200 w-[var(--min-button-width)] text-center relative z-10 
-                        leading-tight ${
-                        teamStatus === status.toLowerCase()
-                          ? 'text-white'
-                          : 'text-gray-700 hover:text-gray-900'
-                      }`}
-                    >
-                      {status}
-                    </button>
-                  ))}
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button
+                  onClick={() => setNeedsPM(!needsPM)}
+                  className={`flex items-center px-6 py-4 rounded-xl transition-all duration-200 ${
+                    needsPM 
+                      ? 'bg-gray-50 border-2 border-black' 
+                      : 'bg-white border border-gray-200 hover:border-gray-400'
+                  }`}
+                >
+                  <div className={`h-5 w-5 rounded flex items-center justify-center border transition-colors duration-200 ${
+                    needsPM 
+                      ? 'bg-black border-black' 
+                      : 'border-gray-300'
+                  }`}>
+                    {needsPM && (
+                      <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </div>
+                  <span className={`ml-3 ${needsPM ? 'text-black' : 'text-gray-700'}`}>
+                    I'm looking for a Project Manager
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setNeedsDev(!needsDev)}
+                  className={`flex items-center px-6 py-4 rounded-xl transition-all duration-200 ${
+                    needsDev 
+                      ? 'bg-gray-50 border-2 border-black' 
+                      : 'bg-white border border-gray-200 hover:border-gray-400'
+                  }`}
+                >
+                  <div className={`h-5 w-5 rounded flex items-center justify-center border transition-colors duration-200 ${
+                    needsDev 
+                      ? 'bg-black border-black' 
+                      : 'border-gray-300'
+                  }`}>
+                    {needsDev && (
+                      <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </div>
+                  <span className={`ml-3 ${needsDev ? 'text-black' : 'text-gray-700'}`}>
+                    I'm looking for a Developer
+                  </span>
+                </button>
+              </div>
+
+              <div className="mt-6 text-sm text-gray-600 bg-gray-50 px-6 py-4 rounded-xl">
+                Status: {!needsPM && !needsDev ? "My team is full" : 
+                        [
+                          needsPM && "I'm looking for a PM",
+                          needsDev && "I'm looking for a dev"
+                        ].filter(Boolean).join(" and ")}
               </div>
             </div>
           </div>
         )}
       </div>
-
       <div className="flex gap-4">
         {step > 1 && (
           <button
@@ -302,24 +289,18 @@ function Onboarding() {
             className="w-1/3 bg-gray-100 text-black py-4 rounded-xl hover:bg-gray-200 transition-colors duration-200 text-lg font-medium"
           >
             Back
-        </button>
+          </button>
         )}
         <button
           onClick={() => {
             if (step < 3) {
-              if (step === 2 && !isValid) return;
               setStep(step + 1);
               scrollToTop();
             } else {
               navigate('/sandbox-headstart/dashboard');
             }
           }}
-          className={`${step > 1 ? 'w-2/3' : 'w-full'} ${
-            step === 2 && !isValid 
-              ? 'bg-gray-400 cursor-not-allowed' 
-              : 'bg-black hover:bg-gray-900'
-          } text-white py-4 rounded-xl transition-colors duration-200 text-lg font-medium`}
-          disabled={step === 2 && !isValid}
+          className={`${step > 1 ? 'w-2/3' : 'w-full'} bg-black hover:bg-gray-900 text-white py-4 rounded-xl transition-colors duration-200 text-lg font-medium`}
         >
           {step === 3 ? 'Complete Profile' : 'Continue'}
         </button>
