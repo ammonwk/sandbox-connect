@@ -13,6 +13,28 @@
   }
 }
 
+@layer base {
+  :root {
+    /* Main brand color */
+    --color-brand: rgb(43, 108, 176); /* #2B6CB0 */
+
+    /* Role colors */
+    --color-role-technical: rgb(49, 99, 206); /* #3182CE */
+    --color-role-technical-management: rgb(35, 135, 107); /* #3182CE */
+    --color-role-management: rgb(26, 142, 76); /* #4299E1 */
+    --color-role-design: rgb(99, 179, 237); /* #63B3ED */
+
+    /* Status colors */
+    --color-status-looking: rgb(56, 161, 105); /* #38A169 */
+    --color-status-full: rgb(113, 128, 150); /* #718096 */
+
+    /* Supporting colors */
+    --color-match: rgb(74, 85, 104); /* #4A5568 */
+    --color-text: rgb(45, 55, 72); /* #2D3748 */
+    --color-tag-bg: rgb(235, 248, 255, 0.2); /* #EBF8FF with opacity */
+  }
+}
+
 @media (max-width: 640px) {
   .dropdown-content {
     position: fixed;

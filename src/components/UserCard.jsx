@@ -7,18 +7,18 @@ function UserCard({ user }) {
   const navigate = useNavigate();
   
   const roleColors = {
-    "Developer": "bg-indigo-100 text-indigo-800",
-    "Designer": "bg-purple-100 text-purple-800",
-    "Project Manager": "bg-blue-100 text-blue-800",
-    "Technical Project Manager": "bg-cyan-100 text-cyan-800",
-    "Undecided": "bg-gray-100 text-gray-800"
+    "Developer": "text-role-technical bg-tag-bg",
+    "Designer": "text-role-design bg-tag-bg",
+    "Project Manager": "text-role-management bg-tag-bg",
+    "Technical Project Manager": "text-role-technicalmanagement bg-tag-bg",
+    "Undecided": "text-gray-600 bg-gray-100"
   };
 
   const getTeamNeedsDisplay = (teamNeeds) => {
     if (!teamNeeds.needsPM && !teamNeeds.needsDev) {
       return {
         text: "Team Full",
-        style: "bg-red-100 text-red-800"
+        style: "text-status-full bg-tag-bg"
       };
     }
     
@@ -28,24 +28,24 @@ function UserCard({ user }) {
     
     return {
       text: `Looking for ${needs.join(" & ")}`,
-      style: "bg-green-100 text-green-800"
+      style: "text-status-looking bg-tag-bg"
     };
   };
 
   const getCommitmentStyle = (hours) => {
     if (hours <= 30) {
-      return "bg-gray-100 text-gray-700 font-normal";
+      return "text-gray-700 font-normal";
     }
     if (hours <= 40) {
-      return "bg-gray-100 text-gray-900 font-medium";
+      return "text-gray-900 font-medium";
     }
-    return "bg-gray-100 text-gray-900 font-bold";
+    return "text-gray-900 font-bold";
   };
 
   const getCommitmentLevel = (hours) => {
-    if (hours <= 30) return "Part-time";
-    if (hours <= 45) return "Full-time";
-    return "Over-time";
+    if (hours <= 30) return "Part-time:";
+    if (hours <= 45) return "Full-time:";
+    return "Over-time:";
   };
 
   const needsInfo = getTeamNeedsDisplay(user.teamNeeds);
@@ -58,7 +58,7 @@ function UserCard({ user }) {
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <span className={`px-3 py-1 rounded-full text-sm ${getCommitmentStyle(user.hoursPerWeek)}`}>
+            <span className={`pl-2 py-1 rounded-full text-sm ${getCommitmentStyle(user.hoursPerWeek)}`}>
               {getCommitmentLevel(user.hoursPerWeek)}
             </span>
             <span className="text-gray-600 text-sm">

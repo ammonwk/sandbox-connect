@@ -123,8 +123,8 @@ function Onboarding() {
                               onClick={() => handleSkillSelection(skill)}
                               className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
                                 selectedSkills.current.includes(skill)
-                                  ? 'bg-indigo-600 text-white'
-                                  : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
+                                    ? 'bg-role-technical text-white'
+                                    : 'bg-white text-gray-900 border border-gray-200 hover:border-gray-400'
                               }`}
                             >
                               {skill}

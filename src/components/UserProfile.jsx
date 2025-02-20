@@ -36,11 +36,11 @@ function UserProfile() {
   };
   
   const roleColors = {
-    "Developer": "bg-indigo-100 text-indigo-800",
-    "Designer": "bg-purple-100 text-purple-800",
-    "Project Manager": "bg-blue-100 text-blue-800",
-    "Technical Project Manager": "bg-cyan-100 text-cyan-800",
-    "Undecided": "bg-gray-100 text-gray-800"
+    "Developer": "text-role-technical bg-tag-bg",
+    "Designer": "text-role-design bg-tag-bg",
+    "Project Manager": "text-role-management bg-tag-bg",
+    "Technical Project Manager": "text-role-technicalmanagement bg-tag-bg",
+    "Undecided": "text-gray-600 bg-gray-100"
   };
 
   const getCommitmentLevel = (hours) => {

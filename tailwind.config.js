@@ -7,8 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        'accent-blue': '#3B82F6',
-      }
+        brand: 'var(--color-brand)',
+        role: {
+          technical: 'var(--color-role-technical)',
+          management: 'var(--color-role-management)',
+          technicalmanagement: 'var(--color-role-technical-management)',
+          design: 'var(--color-role-design)',
+        },
+        status: {
+          looking: 'var(--color-status-looking)',
+          full: 'var(--color-status-full)',
+        },
+        match: 'var(--color-match)',
+        tag: {
+          bg: 'var(--color-tag-bg)',
+        },
+      },
     },
   },
   plugins: [],
