@@ -60,24 +60,32 @@ function Dashboard() {
   };
 
   const filteredUsers = sortUsers(userData.users.filter(user => {
+    // Search matching logic (unchanged)
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.intro.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.currentSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase())) ||
                          user.desiredTeammateSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
     
-    const matchesStatus = activeStatusFilters.includes(user.status);
+    // Updated team needs filtering logic
+    const matchesStatus = activeStatusFilters.some(status => {
+        if (status === 'looking') return user.teamNeeds.needsPM || user.teamNeeds.needsDev;
+        if (status === 'open') return user.teamNeeds.needsPM || user.teamNeeds.needsDev;
+        if (status === 'closed') return !user.teamNeeds.needsPM && !user.teamNeeds.needsDev;
+        return false;
+    });
     
+    // Hours and idea status filtering (unchanged)
     const matchesHours = !activeHoursFilter || activeHoursFilter.length === 0 ? true :
     activeHoursFilter.some(range => {
-      if (range === '20-30') return user.hoursPerWeek >= 20 && user.hoursPerWeek <= 30;
-      if (range === '31-40') return user.hoursPerWeek >= 31 && user.hoursPerWeek <= 40;
-      if (range === '41-50') return user.hoursPerWeek >= 41 && user.hoursPerWeek <= 50;
-      if (range === '50+') return user.hoursPerWeek > 50;
-      return false;
+        if (range === '20-30') return user.hoursPerWeek >= 20 && user.hoursPerWeek <= 30;
+        if (range === '31-40') return user.hoursPerWeek >= 31 && user.hoursPerWeek <= 40;
+        if (range === '41-50') return user.hoursPerWeek >= 41 && user.hoursPerWeek <= 50;
+        if (range === '50+') return user.hoursPerWeek > 50;
+        return false;
     });
 
-  const matchesIdeaStatus = !activeIdeaStatusFilter || activeIdeaStatusFilter.length === 0 ? true :
-    activeIdeaStatusFilter.includes(user.ideaStatus);
+    const matchesIdeaStatus = !activeIdeaStatusFilter || activeIdeaStatusFilter.length === 0 ? true :
+        activeIdeaStatusFilter.includes(user.ideaStatus);
     
     return matchesSearch && matchesStatus && matchesHours && matchesIdeaStatus;
   }));

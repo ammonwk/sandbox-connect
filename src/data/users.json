@@ -5,10 +5,12 @@
       "name": "Sarah Chen",
       "photo": "https://i.pravatar.cc/150?img=1",
       "intro": "Junior at Utah State University studying Design & CS. Built my first health app during a summer internship at a YC startup.",
-      "status": "looking",
+      "teamNeeds": {
+        "needsPM": true,
+        "needsDev": true
+      },
       "currentSkills": ["UI/UX Design", "Product Strategy"],
-      "learningSkills": ["Mobile Development", "Data Analytics"],
-      "desiredTeammateSkills": ["Cloud Infrastructure", "API Development", "Server-side Architecture", "Web Development"],
+      "role": "Designer",
       "contact": {
         "email": "sarah.chen@example.com",
         "phone": "(555) 123-4567",
@@ -17,18 +19,19 @@
       "matchPercentage": 93,
       "background": "Started as the design lead for UUtah's health tech club. Previously interned at a mental health startup where I redesigned their patient onboarding flow. Working on an app to help students find and book mental health resources on campus.",
       "hoursPerWeek": 35,
-      "ideaStatus": "one",
-      "lastActive": "2025-02-14T15:30:00Z"
+      "ideaStatus": "one"
     },
     {
       "id": 2,
       "name": "Marcus Rodriguez",
       "photo": "https://i.pravatar.cc/150?img=11",
       "intro": "Senior at BYU in Computer Science. Been coding since high school, love building tools that make life easier.",
-      "status": "open",
+      "teamNeeds": {
+        "needsPM": true,
+        "needsDev": false
+      },
       "currentSkills": ["Web Development", "API Development", "Server-side Architecture"],
-      "learningSkills": ["Operations Management", "Product Strategy"],
-      "desiredTeammateSkills": ["Sales/Marketing", "Market Research", "UI/UX Design", "Data Analytics"],
+      "role": "Developer",
       "contact": {
         "email": "marcus.r@example.com",
         "phone": "(555) 234-5678",
@@ -37,18 +40,19 @@
       "matchPercentage": 12,
       "background": "Built a popular Chrome extension for students (10k+ users) that organizes Canvas assignments better. Did a summer internship at Microsoft. Now working on an AI study buddy that helps explain complex topics to students.",
       "hoursPerWeek": 45,
-      "ideaStatus": "one",
-      "lastActive": "2025-02-15T09:45:00Z"
+      "ideaStatus": "one"
     },
     {
       "id": 3,
       "name": "Alex Thompson",
       "photo": "https://i.pravatar.cc/150?img=3",
       "intro": "Senior at University of Louisville, passionate about making investing accessible to college students.",
-      "status": "closed",
+      "teamNeeds": {
+        "needsPM": false,
+        "needsDev": false
+      },
       "currentSkills": ["Finances", "Operations Management"],
-      "learningSkills": ["Market Research", "Data Analytics"],
-      "desiredTeammateSkills": ["Cloud Infrastructure", "Mobile Development", "Web Development", "UI/UX Design"],
+      "role": "Project Manager",
       "contact": {
         "email": "alex.t@example.com",
         "phone": "(555) 345-6789",
@@ -57,18 +61,19 @@
       "matchPercentage": 40,
       "background": "President of USU's Fintech Club. Won second place at Utah's fintech hackathon. Interned at Robinhood last summer. Building a platform that helps college students start investing with as little as $5.",
       "hoursPerWeek": 25,
-      "ideaStatus": "one",
-      "lastActive": "2025-02-13T18:20:00Z"
+      "ideaStatus": "one"
     },
     {
       "id": 4,
       "name": "Emma Wright",
       "photo": "https://i.pravatar.cc/150?img=9",
       "intro": "Junior at BYU studying Data Science and Business Analytics.",
-      "status": "looking",
+      "teamNeeds": {
+        "needsPM": false,
+        "needsDev": true
+      },
       "currentSkills": ["Data Analytics", "Market Research"],
-      "learningSkills": ["Cloud Infrastructure", "Operations Management"],
-      "desiredTeammateSkills": ["UI/UX Design", "Mobile Development", "Product Strategy"],
+      "role": "Technical Project Manager",
       "contact": {
         "email": "emma.w@example.com",
         "phone": "(555) 456-7890",
@@ -77,18 +82,19 @@
       "matchPercentage": 75,
       "background": "Lead data analyst for Weber State's Business Analytics Club. Created a predictive model for student retention that's being implemented by the university. Currently working on a platform that helps local businesses make data-driven decisions.",
       "hoursPerWeek": 30,
-      "ideaStatus": "few",
-      "lastActive": "2025-02-15T11:15:00Z"
+      "ideaStatus": "few"
     },
     {
       "id": 5,
       "name": "David Park",
       "photo": "https://i.pravatar.cc/150?img=7",
       "intro": "Senior at Utah Valley University majoring in Software Engineering.",
-      "status": "open",
+      "teamNeeds": {
+        "needsPM": true,
+        "needsDev": false
+      },
       "currentSkills": ["Mobile Development", "Cloud Infrastructure", "Web Development"],
-      "learningSkills": ["UI/UX Design", "Product Strategy"],
-      "desiredTeammateSkills": ["Market Research", "Sales/Marketing", "Data Analytics"],
+      "role": "Developer",
       "contact": {
         "email": "david.p@example.com",
         "phone": "(555) 567-8901",
@@ -97,18 +103,19 @@
       "matchPercentage": 88,
       "background": "Founded UVU's Mobile Dev Club. Developed three iOS apps currently on the App Store. Interned at Adobe in Salt Lake City. Building a social platform for connecting college entrepreneurs in Utah.",
       "hoursPerWeek": 55,
-      "ideaStatus": "one",
-      "lastActive": "2025-02-14T20:45:00Z"
+      "ideaStatus": "one"
     },
     {
       "id": 6,
       "name": "Rachel Martinez",
       "photo": "https://i.pravatar.cc/150?img=5",
       "intro": "Senior at Utah Tech University studying Marketing and Computer Science.",
-      "status": "looking",
+      "teamNeeds": {
+        "needsPM": true,
+        "needsDev": true
+      },
       "currentSkills": ["Sales/Marketing", "Web Development"],
-      "learningSkills": ["Data Analytics", "Product Strategy"],
-      "desiredTeammateSkills": ["Mobile Development", "UI/UX Design", "Server-side Architecture"],
+      "role": "Technical Project Manager",
       "contact": {
         "email": "rachel.m@example.com",
         "phone": "(555) 678-9012",
@@ -117,8 +124,7 @@
       "matchPercentage": 62,
       "background": "Marketing lead for Westminster's Tech Entrepreneurship Society. Ran successful digital campaigns for local startups. Currently developing a platform that helps small businesses automate their social media marketing.",
       "hoursPerWeek": 40,
-      "ideaStatus": "none",
-      "lastActive": "2025-02-15T08:30:00Z"
+      "ideaStatus": "none"
     }
   ]
 }

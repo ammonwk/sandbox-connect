@@ -9,7 +9,7 @@ import userData from '../data/users.json';
 function UserProfile() {
   const { id } = useParams();
   const user = userData.users.find(u => u.id === parseInt(id));
-
+  
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -17,32 +17,36 @@ function UserProfile() {
     });
   }, []);
   
-  const statusStyles = {
-    looking: "bg-green-100 text-green-800",
-    open: "bg-yellow-100 text-yellow-800",
-    closed: "bg-red-100 text-red-800"
+  const getTeamNeedsDisplay = (teamNeeds) => {
+    if (!teamNeeds.needsPM && !teamNeeds.needsDev) {
+      return {
+        text: "Team Full",
+        style: "bg-red-100 text-red-800"
+      };
+    }
+    
+    const needs = [];
+    if (teamNeeds.needsPM) needs.push("PM");
+    if (teamNeeds.needsDev) needs.push("Dev");
+    
+    return {
+      text: `Looking for ${needs.join(" & ")}`,
+      style: "bg-green-100 text-green-800"
+    };
   };
   
-  const statusText = {
-    looking: "Looking for a team",
-    open: "Open to new teammates",
-    closed: "Closed team"
+  const roleColors = {
+    "Developer": "bg-indigo-100 text-indigo-800",
+    "Designer": "bg-purple-100 text-purple-800",
+    "Project Manager": "bg-blue-100 text-blue-800",
+    "Technical Project Manager": "bg-cyan-100 text-cyan-800",
+    "Undecided": "bg-gray-100 text-gray-800"
   };
 
-  const getTimeAgo = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
-    
-    if (diffInHours < 24) {
-      return `${diffInHours} hours ago`;
-    } else {
-      const diffInDays = Math.floor(diffInHours / 24);
-      if (diffInDays === 1) {
-        return 'yesterday';
-      }
-      return `${diffInDays} days ago`;
-    }
+  const getCommitmentLevel = (hours) => {
+    if (hours <= 20) return "Part-time";
+    if (hours <= 40) return "Full-time";
+    return "Full-time+";
   };
 
   if (!user) {
@@ -58,9 +62,10 @@ function UserProfile() {
     );
   }
 
+  const needsInfo = getTeamNeedsDisplay(user.teamNeeds);
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
       <div className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <Link to="/sandbox-headstart/dashboard" className="inline-flex items-center text-gray-600 hover:text-black">
@@ -68,9 +73,7 @@ function UserProfile() {
           </Link>
         </div>
       </div>
-
       <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Main Profile Card */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
           {/* Header Section */}
           <div className="p-8 border-b border-gray-200">
@@ -84,89 +87,70 @@ function UserProfile() {
                 <h1 className="text-3xl font-bold text-black mb-2">{user.name}</h1>
                 <p className="text-xl text-gray-600 mb-4">{user.intro}</p>
                 <div className="flex flex-wrap gap-4 items-center">
-                  <span className={`inline-block px-4 py-2 rounded-full text-sm ${statusStyles[user.status]}`}>
-                    {statusText[user.status]}
+                  <span className={`px-4 py-2 rounded-full text-sm ${roleColors[user.role]}`}>
+                    {user.role}
                   </span>
-                  <span className="text-gray-600">
-                    Active {getTimeAgo(user.lastActive)}
+                  <span className={`px-4 py-2 rounded-full text-sm ${needsInfo.style}`}>
+                    {needsInfo.text}
                   </span>
-                  <span className="text-gray-600">
-                    {user.hoursPerWeek} hours/week
+                  <span className="text-gray-600 font-medium">
+                    {user.matchPercentage}% Match
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Skills Match Section */}
+          {/* Skills Section */}
           <div className="p-8 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-black mb-6">Skills Match</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Has */}
-              <div className="space-y-3">
-                <h3 className="text-lg font-medium text-gray-900">What {user.name.split(' ')[0]} Brings</h3>
-                <div className="flex flex-wrap gap-2">
-                  {user.currentSkills.map((skill) => (
-                    <span
-                      key={skill}
-                      className={`px-4 py-2 rounded-full text-sm ${
-                        SKILLS.dev.includes(skill)
-                          ? 'bg-indigo-100 text-indigo-700'
-                          : 'bg-emerald-100 text-emerald-700'
-                      }`}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-                {user.learningSkills?.length > 0 && (
-                  <div>
-                    <h4 className="text-sm text-gray-600 mb-2">Currently Learning</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {user.learningSkills.map((skill) => (
-                        <span
-                          key={`learning-${skill}`}
-                          className={`px-4 py-2 rounded-full text-sm border-2 border-dashed ${
-                            SKILLS.dev.includes(skill)
-                              ? 'border-indigo-300 text-indigo-700'
-                              : 'border-emerald-300 text-emerald-700'
-                          }`}
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Needs */}
-              <div className="space-y-3">
-                <h3 className="text-lg font-medium text-gray-900">What They Need</h3>
-                <div className="flex flex-wrap gap-2">
-                  {user.desiredTeammateSkills.map((skill) => (
-                    <span
-                      key={`desired-${skill}`}
-                      className={`px-4 py-2 rounded-full text-sm border ${
-                        SKILLS.dev.includes(skill)
-                          ? 'border-indigo-200 text-indigo-700'
-                          : 'border-emerald-200 text-emerald-700'
-                      }`}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            <h2 className="text-2xl font-bold text-black mb-6">Skills</h2>
+            <div className="flex flex-wrap gap-2">
+              {user.currentSkills.map((skill) => (
+                <span
+                  key={skill}
+                  className={`px-4 py-2 rounded-full text-sm ${
+                    SKILLS.dev.includes(skill)
+                      ? 'bg-indigo-100 text-indigo-700'
+                      : 'bg-emerald-100 text-emerald-700'
+                  }`}
+                >
+                  {skill}
+                </span>
+              ))}
             </div>
           </div>
 
-          {/* Project Status Section */}
+          {/* Team Needs Section */}
           <div className="p-8 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-black mb-4">Project Status</h2>
+            <h2 className="text-2xl font-bold text-black mb-4">Team Status</h2>
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <span className="font-medium text-gray-700">Idea Status:</span>
+                <span className="font-medium text-gray-700">Looking for:</span>
+                <div className="flex gap-2">
+                  {!user.teamNeeds.needsPM && !user.teamNeeds.needsDev ? (
+                    <span className="text-gray-600">Not looking for additional team members</span>
+                  ) : (
+                    <>
+                      {user.teamNeeds.needsPM && (
+                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                          Project Manager
+                        </span>
+                      )}
+                      {user.teamNeeds.needsDev && (
+                        <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">
+                          Developer
+                        </span>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="font-medium text-gray-700">Commitment:</span>
+                <span className="text-gray-600">{user.hoursPerWeek} hours per week</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="font-medium text-gray-700">Project Ideas:</span>
                 <span className="text-gray-600">
                   {user.ideaStatus === 'one' 
                     ? 'Has a specific startup idea' 
@@ -175,10 +159,6 @@ function UserProfile() {
                       : 'Open to exploring different startup ideas'
                   }
                 </span>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="font-medium text-gray-700">Time Commitment:</span>
-                <span className="text-gray-600">{user.hoursPerWeek} hours per week</span>
               </div>
             </div>
           </div>
