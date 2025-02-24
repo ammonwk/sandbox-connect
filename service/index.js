@@ -1,109 +1,89 @@
-const express = require('express');
-const compression = require('compression');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-const cors = require('cors');
-const crypto = require('crypto');
+// index.js
+import './loadEnv.js';  // Import this first to ensure environment variables are loaded
 
+import express from 'express';
+import compression from 'compression';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import config from './config/index.js';
+import logger from './utils/logger.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+
+// Get __dirname equivalent in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+// Initialize Express app
 const app = express();
+
+// Apply compression
 app.use(compression({ level: 6 }));
 
-const port = process.argv.length > 2 ? process.argv[2] : 7000;
-
-// Security Middlewares
+// Security middlewares
 app.set('trust proxy', 'loopback');
 app.disable('x-powered-by');
+app.use(helmet());
+app.use(cors({
+  origin: [
+    config.frontendUrl, 
+    new URL(config.frontendUrl).origin,
+    'http://localhost:7000',
+    'http://localhost:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
 
-app.use((req, res, next) => {
-    res.locals.nonce = crypto.randomBytes(16).toString('base64');
-
-    helmet({
-        contentSecurityPolicy: {
-            directives: {
-                defaultSrc: ["'self'"],
-                scriptSrc: [
-                    "'self'",
-                    'https://cdn.jsdelivr.net',
-                    'https://unpkg.com',
-                    `'nonce-${res.locals.nonce}'`
-                ],
-                styleSrc: ["'self'", "'unsafe-inline'", 'https:'],
-                imgSrc: ["'self'", 'data:', 'https:'],
-                connectSrc: ["'self'", 'https:'],
-                fontSrc: ["'self'", 'https:', 'data:'],
-                objectSrc: ["'none'"],
-                upgradeInsecureRequests: [],
-            },
-        },
-    })(req, res, next);
-});
-
+// Rate limiting
 const limiter = rateLimit({
-    windowMs: 5 * 60 * 1000,
-    max: 1000,
-    standardHeaders: true,
-    legacyHeaders: false,
-    trustProxy: true,
+  windowMs: 5 * 60 * 1000,
+  max: 1000,
+  standardHeaders: true,
+  legacyHeaders: false,
+  trustProxy: true,
 });
-
 app.use(limiter);
 
-const corsOptions = {
-    origin: 'https://ammonkunzler.com/',
-    optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
-
-express.static.mime.define({
-    'text/javascript': ['js', 'mjs'],
-    'text/css': ['css']
-});
-
-// Middleware
+// Body parsers
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/for-lizy', express.static('dist', {
-    setHeaders: (res, path) => {
-        if (path.endsWith('.js')) {
-            res.setHeader('Content-Type', 'application/javascript');
-        } else if (path.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        } else if (path.endsWith('.mjs')) {
-            res.setHeader('Content-Type', 'application/javascript');
-        }
-    }
-}));
+try {
+  // Connect to MongoDB
+  mongoose.connect(config.mongoURI)
+    .then(() => logger.info('MongoDB connected'))
+    .catch(err => logger.error('MongoDB connection error:', { error: err.message }));
 
-// Update the catch-all route
-app.get('/sandbox-headstart/*', (_req, res) => {
-    res.sendFile('index.html', { root: 'dist' });
-});
+  // Mount API routes
+  app.use('/sandbox-headstart/api/auth', authRoutes);
+  app.use('/sandbox-headstart/api/users', userRoutes);
 
-app.use(express.static('public', {
-    setHeaders: (res, path) => {
-        if (path.endsWith('.js')) {
-            res.setHeader('Content-Type', 'text/javascript');
-        }
-        if (path.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        }
-    }
-}));
+  // Serve static files
+  app.use('/sandbox-headstart', express.static(path.join(__dirname, '../dist')));
+  app.get('/sandbox-headstart/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
 
+  // Error handling middleware
+  app.use(errorHandler);
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
+  // Start the server
+  const port = config.port;
+  app.listen(port, () => {
+    logger.info(`Server running in ${config.nodeEnv} mode on port ${port}`);
+  });
+} catch (error) {
+  console.error('Server failed to start:', error);
+}
 
-// Default route handler
-app.use((_req, res) => {
-    res.sendFile('index.html', { root: 'public' });
-});
-
-// Error handler
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Something went wrong!' });
-});
+export default app;

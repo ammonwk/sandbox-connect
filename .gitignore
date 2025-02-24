@@ -24,4 +24,7 @@ dist-ssr
 *.sw?
 
 compile_dir.py
-output.md
+compiled_output.md
+
+config.json
+.env

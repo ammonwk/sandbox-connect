@@ -1,13 +1,16 @@
-// components/Dashboard.jsx
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userData from '../data/users.json';
+import { useApi } from '../api/apiClient';
 import UserCard from './UserCard';
 import Navbar from './Navbar';
 import FilterBar from './FilterBar';
 import { useFilters } from '../context/FilterContext';
 
 function Dashboard() {
+  const api = useApi();
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentUserId, setCurrentUserId] = useState(null);
   const {
     searchTerm,
     setSearchTerm,
@@ -23,33 +26,54 @@ function Dashboard() {
   
   const navigate = useNavigate();
 
+  // Fetch users from API
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await api.user.getProfile();
+        if (response?.user?._id) {
+          setCurrentUserId(response.user._id);
+        }
+      } catch (error) {
+        console.error('Failed to fetch current user:', error);
+      }
+    };
+    
+    fetchCurrentUser();
+
+    const fetchUsers = async () => {
+      try {
+        const response = await api.user.getDashboardUsers();
+        setUsers(response.users);
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleLogout = () => {
-    navigate('/sandbox-headstart/');
+    api.auth.logout(); // Updated from auth.signoutRedirect
   };
 
   const sortUsers = (users) => {
     return [...users].sort((a, b) => {
       let comparison = 0;
-      
       switch (sortState.id) {
         case 'match':
-          comparison = b.matchPercentage - a.matchPercentage;
+          comparison = (b.matchPercentage || 0) - (a.matchPercentage || 0);
           break;
         case 'name':
           comparison = a.name.localeCompare(b.name);
           break;
         case 'hours':
-          comparison = b.hoursPerWeek - a.hoursPerWeek;
+          comparison = (b.hoursPerWeek || 0) - (a.hoursPerWeek || 0);
           break;
         case 'recent':
-          comparison = new Date(b.lastActive) - new Date(a.lastActive);
+          comparison = new Date(b.lastActive || 0) - new Date(a.lastActive || 0);
           break;
         default:
           return 0;
@@ -58,30 +82,32 @@ function Dashboard() {
     });
   };
 
-  const filteredUsers = sortUsers(userData.users.filter(user => {
+  const filteredUsers = sortUsers(users
+    .filter(user => user._id !== currentUserId)
+    .filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.intro.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.currentSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                         user.desiredTeammateSkills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
-    
+                         (user.intro || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (user.skills || []).some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
+      
     const matchesStatus = activeStatusFilters.some(status => {
-      if (status === 'looking') return user.teamNeeds.needsPM || user.teamNeeds.needsDev;
-      if (status === 'open') return user.teamNeeds.needsPM || user.teamNeeds.needsDev;
-      if (status === 'closed') return !user.teamNeeds.needsPM && !user.teamNeeds.needsDev;
+      if (status === 'looking') return user.teamNeeds?.needsPM || user.teamNeeds?.needsDev;
+      if (status === 'open') return user.teamNeeds?.needsPM || user.teamNeeds?.needsDev;
+      if (status === 'closed') return !user.teamNeeds?.needsPM && !user.teamNeeds?.needsDev;
       return false;
     });
     
     const matchesHours = !activeHoursFilter || activeHoursFilter.length === 0 ? true :
-    activeHoursFilter.some(range => {
-      if (range === '20-30') return user.hoursPerWeek >= 20 && user.hoursPerWeek <= 30;
-      if (range === '31-40') return user.hoursPerWeek >= 31 && user.hoursPerWeek <= 40;
-      if (range === '41-50') return user.hoursPerWeek >= 41 && user.hoursPerWeek <= 50;
-      if (range === '50+') return user.hoursPerWeek > 50;
-      return false;
-    });
+      activeHoursFilter.some(range => {
+        const hours = user.hoursPerWeek || 0;
+        if (range === '20-30') return hours >= 20 && hours <= 30;
+        if (range === '31-40') return hours >= 31 && hours <= 40;
+        if (range === '41-50') return hours >= 41 && hours <= 50;
+        if (range === '50+') return hours > 50;
+        return false;
+      });
 
     const matchesIdeaStatus = !activeIdeaStatusFilter || activeIdeaStatusFilter.length === 0 ? true :
-      activeIdeaStatusFilter.includes(user.ideaStatus);
+      activeIdeaStatusFilter.includes(user.ideaStatus || '');
     
     return matchesSearch && matchesStatus && matchesHours && matchesIdeaStatus;
   }));
@@ -166,7 +192,7 @@ function Dashboard() {
         {filteredUsers.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredUsers.map((user) => (
-              <UserCard key={user.id} user={user} />
+              <UserCard key={user._id || user.id} user={user} />
             ))}
           </div>
         ) : (

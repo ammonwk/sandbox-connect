@@ -3,6 +3,7 @@ import LandingPage from './components/LandingPage';
 import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
 import UserProfile from './components/UserProfile';
+import Profile from './components/Profile';
 import { FilterProvider } from './context/FilterContext';
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -16,6 +17,7 @@ function App() {
               <Route path="sandbox-headstart/" element={<LandingPage />} />
               <Route path="sandbox-headstart/onboarding" element={<Onboarding />} />
               <Route path="sandbox-headstart/dashboard" element={<Dashboard />} />
+              <Route path="/sandbox-headstart/profile/me" element={<Profile />} /> {/* Current user */}
               <Route path="sandbox-headstart/profile/:id" element={<UserProfile />} />
             </Routes>
           </div>
