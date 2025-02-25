@@ -73,8 +73,6 @@ const Profile = () => {
       setIdeaStatus(data.user.ideaStatus || 'few');
       setTeamNeeds(data.user.teamNeeds || { needsPM: false, needsDev: false });
       setPhotoPreview(data.user.photo || null);
-
-      console.log(data.user);
       
       setError(null);
     } catch (err) {
@@ -154,7 +152,6 @@ const Profile = () => {
   
   // Handle idea status change
   const handleIdeaStatusChange = (status) => {
-    console.log("Setting idea status:", status);
     setIdeaStatus(status);
     saveProfile({ ideaStatus: status });
   };
@@ -172,6 +169,7 @@ const Profile = () => {
   // Handle role change
   const handleRoleChange = (e) => {
     setSelectedRole(e.target.value);
+    saveProfile({ role: e.target.value });
   };
   
   // Save role change
@@ -195,9 +193,7 @@ const Profile = () => {
         ideaStatus: updates.ideaStatus !== undefined ? updates.ideaStatus : ideaStatus,
         teamNeeds: updates.teamNeeds !== undefined ? updates.teamNeeds : teamNeeds
       };
-      
-      console.log("Saving profile data:", dataToSave);
-      
+            
       const data = await api.user.updateProfile(dataToSave, photoFile);
       setProfile(data.user);
       

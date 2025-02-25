@@ -12,13 +12,15 @@ Sandbox Connect is a web application designed to help students in the Sandbox pr
 
 ## 🛠️ TODO
 
-- [x] Add a few more focused options for user profiles
-- [ ] Replace filler data with real user data (From sandbox applicants)
-- [ ] Make matching algorithm
-    - Involving complementatry strenghts and weaknesses, time commitment, idea openness, and team situation.
-- [ ] Review data security
-- [ ] Let users put their startup ideas on their profile
+- [x] Frontend: Login, Onboarding, & Users view
+- [x] Backend: Authentication & data handling
+- [x] 1.0.0 Release!
+- [ ] Refactor, trim down technical debt
 - [ ] Add "Support" page & Feedback options
+- [ ] Add admin content management mechanisms
+- [ ] Add notes, saved profiles, info management
+- [ ] Add shared calendar for Sandbox events
+- [ ] Add forums and communication or idea-sharing mechanisms
 
 ## 🛠️ Installation & Setup
 To get started with Sandbox Connect on your local machine, follow these steps:
