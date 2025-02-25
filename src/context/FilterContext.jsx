@@ -8,7 +8,7 @@ export function FilterProvider({ children }) {
     id: 'match',
     direction: 'desc'
   });
-  const [activeStatusFilters, setActiveStatusFilters] = useState(['looking', 'open', 'closed']);
+  const [activeStatusFilters, setActiveStatusFilters] = useState(['needsPM', 'needsDev', 'noNeeds']);
   const [activeHoursFilter, setActiveHoursFilter] = useState(['20-30', '31-40', '41-50', '50+']);
   const [activeIdeaStatusFilter, setActiveIdeaStatusFilter] = useState(['one', 'few', 'none']);
 

@@ -89,14 +89,14 @@ function Dashboard() {
                          (user.intro || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
                          (user.skills || []).some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
       
-    const matchesStatus = activeStatusFilters.some(status => {
-      if (status === 'looking') return user.teamNeeds?.needsPM || user.teamNeeds?.needsDev;
-      if (status === 'open') return user.teamNeeds?.needsPM || user.teamNeeds?.needsDev;
-      if (status === 'closed') return !user.teamNeeds?.needsPM && !user.teamNeeds?.needsDev;
+    const matchesStatus = activeStatusFilters.length >= 0 && activeStatusFilters.some(status => {
+      if (status === 'needsPM') return user.teamNeeds?.needsPM;
+      if (status === 'needsDev') return user.teamNeeds?.needsDev;
+      if (status === 'noNeeds') return !user.teamNeeds?.needsPM && !user.teamNeeds?.needsDev;
       return false;
     });
     
-    const matchesHours = !activeHoursFilter || activeHoursFilter.length === 0 ? true :
+    const matchesHours = !activeHoursFilter || activeHoursFilter.length === 0 ? false :
       activeHoursFilter.some(range => {
         const hours = user.hoursPerWeek || 0;
         if (range === '20-30') return hours >= 20 && hours <= 30;
@@ -106,7 +106,7 @@ function Dashboard() {
         return false;
       });
 
-    const matchesIdeaStatus = !activeIdeaStatusFilter || activeIdeaStatusFilter.length === 0 ? true :
+    const matchesIdeaStatus = !activeIdeaStatusFilter || activeIdeaStatusFilter.length === 0 ? false :
       activeIdeaStatusFilter.includes(user.ideaStatus || '');
     
     return matchesSearch && matchesStatus && matchesHours && matchesIdeaStatus;
@@ -124,8 +124,7 @@ function Dashboard() {
     setActiveHoursFilter(prev => {
       if (!prev) return [hoursRange];
       if (prev.includes(hoursRange)) {
-        const newFilters = prev.filter(h => h !== hoursRange);
-        return newFilters.length ? newFilters : null;
+        return prev.filter(h => h !== hoursRange);
       }
       return [...prev, hoursRange];
     });
@@ -135,8 +134,7 @@ function Dashboard() {
     setActiveIdeaStatusFilter(prev => {
       if (!prev) return [ideaStatus];
       if (prev.includes(ideaStatus)) {
-        const newFilters = prev.filter(s => s !== ideaStatus);
-        return newFilters.length ? newFilters : null;
+        return prev.filter(s => s !== ideaStatus);
       }
       return [...prev, ideaStatus];
     });
@@ -144,7 +142,7 @@ function Dashboard() {
 
   const handleReset = () => {
     setSortState({ id: 'match', direction: 'desc' });
-    setActiveStatusFilters(['looking', 'open', 'closed']);
+    setActiveStatusFilters(['needsPM', 'needsDev', 'noNeeds']);
     setActiveHoursFilter(null);
     setActiveIdeaStatusFilter(null);
   };

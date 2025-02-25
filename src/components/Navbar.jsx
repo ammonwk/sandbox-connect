@@ -67,9 +67,9 @@ function Navbar({ searchTerm, setSearchTerm, handleLogout }) {
             </button>
 
             {/* Action buttons */}
-            <button className="p-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+            {/* <button className="p-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
               <FiMessageSquare className="h-6 w-6" />
-            </button>
+            </button> */}
             
             <button className="p-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
               <IoNotificationsOutline className="h-6 w-6" />

@@ -33,7 +33,6 @@ function FilterBar({
         setIsMobile(false);
       }
     };
-    
     checkLayout();
     window.addEventListener('resize', checkLayout);
     return () => window.removeEventListener('resize', checkLayout);
@@ -57,34 +56,31 @@ function FilterBar({
     { id: 'hours', label: 'Hours Available', icon: '⏱' },
     { id: 'recent', label: 'Recently Active', icon: '⌚' }
   ];
-
   const statusFilters = [
-    { id: 'looking', label: 'Looking for Team' },
-    { id: 'open', label: 'Open to Join' },
-    { id: 'closed', label: 'Closed Teams' }
+    { id: 'needsPM', label: 'Needs PM' },
+    { id: 'needsDev', label: 'Needs Dev' },
+    { id: 'noNeeds', label: 'No Needs' }
   ];
-
   const hoursFilters = [
     { id: '20-30', label: '20-30 hours/week' },
     { id: '31-40', label: '31-40 hours/week' },
     { id: '41-50', label: '41-50 hours/week' },
     { id: '50+', label: '50+ hours/week' }
   ];
-
   const ideaStatusFilters = [
     { id: 'one', label: 'Has Specific Idea' },
     { id: 'few', label: 'Has Multiple Ideas' },
     { id: 'none', label: 'Open to Ideas' }
   ];
 
+  // Normalize filter states
   const getHoursLabel = () => {
-    if (!activeHoursFilter || activeHoursFilter.length === hoursFilters.length) return "All";
-    return `${activeHoursFilter.length} selected`;
+    const hoursCount = activeHoursFilter ? activeHoursFilter.length : hoursFilters.length;
+    return hoursCount === hoursFilters.length ? "All" : `${hoursCount} selected`;
   };
-
   const getIdeaStatusLabel = () => {
-    if (!activeIdeaStatusFilter || activeIdeaStatusFilter.length === ideaStatusFilters.length) return "All";
-    return `${activeIdeaStatusFilter.length} selected`;
+    const ideaCount = activeIdeaStatusFilter ? activeIdeaStatusFilter.length : ideaStatusFilters.length;
+    return ideaCount === ideaStatusFilters.length ? "All" : `${ideaCount} selected`;
   };
 
   const handleDropdownClick = (dropdown) => {
@@ -211,18 +207,13 @@ function FilterBar({
           <FiChevronDown className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0 ml-2 ${isOpen ? 'transform rotate-180' : ''}`} />
         </button>
       </div>
-      
       {!isMobile && isOpen && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50">
           {content}
         </div>
       )}
       {isMobile && (
-        <MobileDropdown
-          isOpen={isOpen}
-          onClose={() => setOpenDropdown(null)}
-          title={label}
-        >
+        <MobileDropdown isOpen={isOpen} onClose={() => setOpenDropdown(null)} title={label}>
           {content}
         </MobileDropdown>
       )}
@@ -230,10 +221,7 @@ function FilterBar({
   );
 
   return (
-    <div className={`
-      bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl mb-4
-      ${layout === 'desktop' ? 'overflow-visible' : 'overflow-hidden'}
-    `}>
+    <div className={`bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl mb-4 ${layout === 'desktop' ? 'overflow-visible' : 'overflow-hidden'}`}>
       {layout !== 'desktop' && (
         <button
           onClick={() => setIsExpanded(!isExpanded)}
@@ -247,33 +235,20 @@ function FilterBar({
               </span>
             )}
           </div>
-          <FiChevronDown 
-            className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform ${
-              isExpanded ? 'transform rotate-180' : ''
-            }`}
-          />
+          <FiChevronDown className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform ${isExpanded ? 'transform rotate-180' : ''}`} />
         </button>
       )}
-
-      <div className={`
-        lg:p-4
-        ${layout === 'desktop' ? 'max-h-none' : isExpanded ? 'max-h-[1000px] p-4' : 'max-h-0'}
-        transition-all duration-300 ease-in-out
-        overflow-visible
-      `}>
+      <div className={`lg:p-4 ${layout === 'desktop' ? 'max-h-none' : isExpanded ? 'max-h-[1000px] p-4' : 'max-h-0'} transition-all duration-300 ease-in-out overflow-visible`}>
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-visible">
             <div className="w-full min-w-[200px]">
               <SortDropdown />
             </div>
-            
             <div className="w-full min-w-[200px]">
               <Dropdown
                 id="status"
                 label="Status"
-                selection={activeStatusFilters.length === statusFilters.length 
-                  ? "All" 
-                  : `${activeStatusFilters.length} selected`}
+                selection={activeStatusFilters.length === statusFilters.length ? "All" : `${activeStatusFilters.length} selected`}
                 isOpen={openDropdown === 'status'}
                 onClick={() => handleDropdownClick('status')}
                 content={
@@ -293,7 +268,6 @@ function FilterBar({
                 }
               />
             </div>
-            
             <div className="w-full min-w-[200px]">
               <Dropdown
                 id="hours"
@@ -307,7 +281,7 @@ function FilterBar({
                       <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={!activeHoursFilter || activeHoursFilter.includes(filter.id)}
+                          checked={activeHoursFilter ? activeHoursFilter.includes(filter.id) : true}
                           onChange={() => onHoursFilterChange(filter.id)}
                           className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-black dark:text-white focus:ring-black dark:focus:ring-white"
                         />
@@ -318,7 +292,6 @@ function FilterBar({
                 }
               />
             </div>
-            
             <div className="w-full min-w-[200px]">
               <Dropdown
                 id="idea"
@@ -332,7 +305,7 @@ function FilterBar({
                       <label key={filter.id} className="flex items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={!activeIdeaStatusFilter || activeIdeaStatusFilter.includes(filter.id)}
+                          checked={activeIdeaStatusFilter ? activeIdeaStatusFilter.includes(filter.id) : true}
                           onChange={() => onIdeaStatusFilterChange(filter.id)}
                           className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-black dark:text-white focus:ring-black dark:focus:ring-white"
                         />
@@ -344,7 +317,6 @@ function FilterBar({
               />
             </div>
           </div>
-      
           {hasActiveFilters && (
             <div className="flex lg:flex-none">
               <button
