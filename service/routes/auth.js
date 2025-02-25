@@ -83,29 +83,22 @@ router.get('/verify', async (req, res) => {
     let user = await User.findOne({ email: username });
     
     if (!user) {
-      // Create a new user entry in our database only if they don't exist
-      console.log("Verify", userInfo.user)
+      logger.info('User not found in database, creating new user', { email: username });
+      // Create new user with schema-compliant fields
       user = new User({
-        cognitoId: userInfo.user.sub,
-        email,
-        name: userInfo.user.preferred_username || email.split('@')[0],
-        photo: userInfo.user.picture || null,
-        role: userInfo.user['custom:role'] || 'Undecided', // Changed from 'member' to match ROLES in frontend
-        contact: {
-          email: email,
-          phone: userInfo.user.phone_number || null,
-          slack: userInfo.user['custom:slack'] || null
-        },
-        skills: userInfo.user['custom:skills'] ? userInfo.user['custom:skills'].split(',') : [],
-        intro: '', // Add default intro field instead of bio
+        email: username,
+        name: username.split('@')[0],
+        role: 'Undecided',
+        contact: { email: username },
+        skills: [],
+        intro: '',
         teamNeeds: {
           needsPM: false,
           needsDev: false
         },
-        ideaStatus: 'few' // Set default to match enum
-      });      
-      
-      await newUser.save();
+        ideaStatus: 'few'
+      });
+      await user.save();
     }
     
     // Redirect the user to the login page with a success message
