@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { FiChevronDown } from 'react-icons/fi';
+import { FiChevronDown, FiArrowDown, FiArrowUp } from 'react-icons/fi';
 import MobileDropdown from './MobileDropdown';
 
 function FilterBar({ 
@@ -54,7 +54,6 @@ function FilterBar({
     { id: 'match', label: 'Match', icon: '％' },
     { id: 'name', label: 'Name', icon: 'A' },
     { id: 'hours', label: 'Hours Available', icon: '⏱' },
-    { id: 'recent', label: 'Recently Active', icon: '⌚' }
   ];
   const statusFilters = [
     { id: 'needsPM', label: 'Needs PM' },
@@ -101,96 +100,115 @@ function FilterBar({
     (activeIdeaStatusFilter && activeIdeaStatusFilter.length < ideaStatusFilters.length) || 
     activeSortOption !== 'match';
 
-  const SortDropdown = () => (
-    <div 
-      className="relative w-full"
-      ref={el => dropdownRefs.current['sort'] = el}
-    >
-      <div className="flex items-center space-x-2 px-2 py-1">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sort:</span>
-        <div className="flex flex-1 items-center space-x-2">
+    const SortDropdown = () => (
+      <div 
+        className="relative w-full"
+        ref={el => dropdownRefs.current['sort'] = el}
+      >
+        <div className="flex items-center space-x-2 px-2 py-1">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sort:</span>
           <button
             onClick={() => handleDropdownClick('sort')}
             className="flex-1 px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg flex items-center justify-between hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-opacity-20 min-w-0"
           >
-            <span className="text-sm text-gray-900 dark:text-white">
-              {sortOptions.find(opt => opt.id === activeSortOption)?.label}
-            </span>
-            <FiChevronDown className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0 ml-2 ${
-              openDropdown === 'sort' ? 'transform rotate-180' : ''
-            }`} />
-          </button>
-          
-          <button
-            onClick={() => onSortChange({ 
-              id: activeSortOption, 
-              direction: activeSortDirection === 'asc' ? 'desc' : 'asc' 
-            })}
-            className="px-2 py-1.5 bg-white dark:bg-gray-700 text-black dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg hover:border-gray-300 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-opacity-20"
-            aria-label="Toggle sort direction"
-          >
-            {activeSortDirection === 'asc' ? '↑' : '↓'}
+            <div className="flex items-center">
+              <span className="text-gray-500 dark:text-gray-400 mr-2">
+                {sortOptions.find(opt => opt.id === activeSortOption)?.icon}
+              </span>
+              <span className="text-sm text-gray-900 dark:text-white">
+                {sortOptions.find(opt => opt.id === activeSortOption)?.label}
+              </span>
+            </div>
+            <div className="flex items-center">
+              {activeSortDirection === 'asc' ? 
+                <FiArrowUp className="w-4 h-4 text-gray-500 dark:text-gray-400 mr-1" /> : 
+                <FiArrowDown className="w-4 h-4 text-gray-500 dark:text-gray-400 mr-1" />
+              }
+              <FiChevronDown className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0 ${
+                openDropdown === 'sort' ? 'transform rotate-180' : ''
+              }`} />
+            </div>
           </button>
         </div>
-      </div>
-
-      {!isMobile && openDropdown === 'sort' && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50">
-          {sortOptions.map((option) => (
-            <button
-              key={option.id}
-              onClick={() => {
-                onSortChange({ 
-                  id: option.id, 
-                  direction: activeSortDirection 
-                });
-                setOpenDropdown(null);
-              }}
-              className={`flex items-center space-x-2 w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-600 ${
-                activeSortOption === option.id 
-                  ? 'text-black dark:text-white font-medium' 
-                  : 'text-gray-600 dark:text-gray-300'
-              }`}
-            >
-              <span className="w-6 text-center text-gray-400 dark:text-gray-500">{option.icon}</span>
-              <span>{option.label}</span>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {isMobile && (
-        <MobileDropdown
-          isOpen={openDropdown === 'sort'}
-          onClose={() => setOpenDropdown(null)}
-          title="Sort By"
-        >
-          <div className="space-y-2">
+  
+        {!isMobile && openDropdown === 'sort' && (
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50">
             {sortOptions.map((option) => (
-              <button
-                key={option.id}
-                onClick={() => {
-                  onSortChange({ 
-                    id: option.id, 
-                    direction: activeSortDirection 
-                  });
-                  setOpenDropdown(null);
-                }}
-                className={`flex items-center space-x-3 w-full p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 ${
-                  activeSortOption === option.id 
-                    ? 'text-black dark:text-white font-medium bg-gray-50 dark:bg-gray-600' 
-                    : 'text-gray-600 dark:text-gray-300'
-                }`}
-              >
-                <span className="w-6 text-center text-gray-400 dark:text-gray-500">{option.icon}</span>
-                <span>{option.label}</span>
-              </button>
+              <div key={option.id} className="px-1 py-0.5">
+                <button
+                  onClick={() => {
+                    onSortChange({ 
+                      id: option.id, 
+                      direction: activeSortOption === option.id ? 
+                        (activeSortDirection === 'asc' ? 'desc' : 'asc') : 
+                        activeSortDirection 
+                    });
+                    setOpenDropdown(null);
+                  }}
+                  className={`flex items-center justify-between w-full px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-md ${
+                    activeSortOption === option.id 
+                      ? 'text-black dark:text-white bg-gray-50 dark:bg-gray-600 font-medium' 
+                      : 'text-gray-600 dark:text-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <span className="text-gray-400 dark:text-gray-500">{option.icon}</span>
+                    <span>{option.label}</span>
+                  </div>
+                  
+                  {activeSortOption === option.id && (
+                    activeSortDirection === 'asc' ? 
+                      <FiArrowUp className="w-4 h-4" /> : 
+                      <FiArrowDown className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             ))}
           </div>
-        </MobileDropdown>
-      )}
-    </div>
-  );
+        )}
+  
+        {isMobile && (
+          <MobileDropdown
+            isOpen={openDropdown === 'sort'}
+            onClose={() => setOpenDropdown(null)}
+            title="Sort By"
+          >
+            <div className="space-y-2">
+              {sortOptions.map((option) => (
+                <button
+                  key={option.id}
+                  onClick={() => {
+                    onSortChange({ 
+                      id: option.id, 
+                      direction: activeSortOption === option.id ? 
+                        (activeSortDirection === 'asc' ? 'desc' : 'asc') : 
+                        activeSortDirection 
+                    });
+                    setOpenDropdown(null);
+                  }}
+                  className={`flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 ${
+                    activeSortOption === option.id 
+                      ? 'text-black dark:text-white font-medium bg-gray-50 dark:bg-gray-600' 
+                      : 'text-gray-600 dark:text-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <span className="text-gray-400 dark:text-gray-500">{option.icon}</span>
+                    <span>{option.label}</span>
+                  </div>
+                  
+                  {activeSortOption === option.id && (
+                    activeSortDirection === 'asc' ? 
+                      <FiArrowUp className="w-4 h-4" /> : 
+                      <FiArrowDown className="w-4 h-4" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </MobileDropdown>
+        )}
+      </div>
+    );
 
   const Dropdown = ({ id, label, selection, content, isOpen, onClick }) => (
     <div 

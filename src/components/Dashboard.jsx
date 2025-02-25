@@ -143,8 +143,8 @@ function Dashboard() {
   const handleReset = () => {
     setSortState({ id: 'match', direction: 'desc' });
     setActiveStatusFilters(['needsPM', 'needsDev', 'noNeeds']);
-    setActiveHoursFilter(null);
-    setActiveIdeaStatusFilter(null);
+    setActiveHoursFilter(['20-30', '31-40', '41-50', '50+']);
+    setActiveIdeaStatusFilter(['one', 'few', 'none']);
   };
 
   return (
