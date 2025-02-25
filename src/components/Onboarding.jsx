@@ -292,7 +292,7 @@ function Onboarding() {
                   maxLength={250}
                   rows={3}
                   className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all duration-200 outline-none text-lg bg-white dark:bg-gray-700 text-black dark:text-white"
-                  placeholder="A brief description about yourself"
+                  placeholder="School? Major? Superpower? Your elevator pitch."
                   required
                 ></textarea>
                 <p className="text-sm text-right text-gray-500 dark:text-gray-400 mt-1">
@@ -309,7 +309,7 @@ function Onboarding() {
                   maxLength={5000}
                   rows={6}
                   className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all duration-200 outline-none text-lg bg-white dark:bg-gray-700 text-black dark:text-white"
-                  placeholder="Tell us about your experience, education, and interests"
+                  placeholder="A place to share your story, experiences, and what you're looking for in a team."
                 ></textarea>
                 <p className="text-sm text-right text-gray-500 dark:text-gray-400 mt-1">
                   {background.length}/5000
@@ -437,7 +437,7 @@ function Onboarding() {
                   <span>65 hours</span>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 italic text-center">
-                  This helps match you with teammates who share similar commitment levels
+                  This helps you match with teammates who share similar commitment levels
                 </p>
               </div>
             </div>
@@ -483,7 +483,7 @@ function Onboarding() {
             </div>
             <div>
               <h3 className="text-xl font-semibold text-black dark:text-white pt-6 mb-6">
-                Are you still looking for someone on your team?
+                Are you still looking for someone for your team?
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button

@@ -318,7 +318,7 @@ const Profile = () => {
                   maxLength={250}
                   rows={3}
                   className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all duration-200 outline-none text-lg bg-white dark:bg-gray-700 text-black dark:text-white"
-                  placeholder="A brief description about yourself"
+                  placeholder="School? Major? Superpower? Your elevator pitch."
                 />
                 <div className="flex justify-between items-center mt-1">
                   <span>{savingFields.intro && <p className="text-sm text-gray-500 dark:text-gray-400">Saving...</p>}</span>
@@ -336,7 +336,7 @@ const Profile = () => {
                   maxLength={5000}
                   rows={6}
                   className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all duration-200 outline-none text-lg bg-white dark:bg-gray-700 text-black dark:text-white"
-                  placeholder="Tell us about your experience, education, and interests"
+                  placeholder="A place to share your story, experiences, and what you're looking for in a team."
                 />
                 <div className="flex justify-between items-center mt-1">
                   <span>{savingFields.background && <p className="text-sm text-gray-500 dark:text-gray-400">Saving...</p>}</span>
