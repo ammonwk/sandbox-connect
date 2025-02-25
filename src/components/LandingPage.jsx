@@ -1,10 +1,14 @@
-// Updated LandingPage.jsx with forgot password functionality
-import { useState, useEffect } from 'react';
+// Modified src/components/LandingPage.jsx
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '../api/apiClient';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Modal from './Modal';
+import TermsContent from './TermsContent';
+import PrivacyPolicyContent from './PrivacyPolicyContent';
 
 function LandingPage() {
+  // All existing state variables remain the same
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -17,11 +21,20 @@ function LandingPage() {
   const [statusMessage, setStatusMessage] = useState({ type: '', message: '' });
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [resetCode, setResetCode] = useState('');
-  const [resetStep, setResetStep] = useState(1); // 1: Email entry, 2: Code verification & new password
+  const [resetStep, setResetStep] = useState(1);
+  
+  // Add new state variables for terms and privacy
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  
+  const termsLinkRef = useRef(null);
+  const privacyLinkRef = useRef(null);
   
   const navigate = useNavigate();
   const api = useApi();
 
+  // Keep all existing toggle functions
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -51,8 +64,48 @@ function LandingPage() {
     }
     
     setIsLoading(false);
+    
+    // Set up event listeners for terms and privacy links
+    const handleTermsLinkClick = (e) => {
+      // Only open the modal for left-clicks with no modifier keys
+      if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+        e.preventDefault();
+        setShowTermsModal(true);
+      }
+      // For middle-clicks or ctrl/meta/shift+clicks, let the browser handle it normally
+    };
+    
+    const handlePrivacyLinkClick = (e) => {
+      // Only open the modal for left-clicks with no modifier keys
+      if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+        e.preventDefault();
+        setShowPrivacyModal(true);
+      }
+      // For middle-clicks or ctrl/meta/shift+clicks, let the browser handle it normally
+    };
+    
+    // Add event listeners
+    if (termsLinkRef.current) {
+      termsLinkRef.current.addEventListener('click', handleTermsLinkClick);
+    }
+    
+    if (privacyLinkRef.current) {
+      privacyLinkRef.current.addEventListener('click', handlePrivacyLinkClick);
+    }
+    
+    // Clean up event listeners
+    return () => {
+      if (termsLinkRef.current) {
+        termsLinkRef.current.removeEventListener('click', handleTermsLinkClick);
+      }
+      
+      if (privacyLinkRef.current) {
+        privacyLinkRef.current.removeEventListener('click', handlePrivacyLinkClick);
+      }
+    };
   }, [navigate]);
   
+  // Keep all existing handler functions
   const handleResendVerification = async () => {
     try {
       setIsLoading(true);
@@ -74,6 +127,12 @@ function LandingPage() {
     setErrorMessage('');
     setStatusMessage({ type: '', message: '' });
     
+    // For signup, check if terms are accepted
+    if (isSigningUp && !acceptedTerms) {
+      setErrorMessage('You must accept the Terms of Service and Privacy Policy to create an account.');
+      return;
+    }
+    
     try {
       if (isSigningUp) {
         setIsLoading(true);
@@ -87,7 +146,9 @@ function LandingPage() {
         setEmail('');
         setPassword('');
         setDisplayName('');
+        setAcceptedTerms(false);
       } else {
+        // Existing login code...
         setIsLoading(true);
         const loginResponse = await api.auth.login({ email, password });
         
@@ -102,10 +163,10 @@ function LandingPage() {
                             user.skills.length > 0 && 
                             user.role;
         
-        // Navigate to dashboard if profile is complete, otherwise to onboarding
         navigate(profileComplete ? '/dashboard' : '/onboarding');
       }
     } catch (error) {
+      // Existing error handling...
       if (error.message === 'User is not confirmed') {
         setErrorMessage(
           <>
@@ -126,6 +187,7 @@ function LandingPage() {
     }
   };
   
+  // Keep all other existing handlers
   const handleForgotPasswordSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
@@ -185,7 +247,27 @@ function LandingPage() {
   
   return (
     <div className="container mx-auto px-4 min-h-screen flex items-center py-8 md:py-0">
+      {/* Add Terms Modal */}
+      <Modal 
+        isOpen={showTermsModal} 
+        onClose={() => setShowTermsModal(false)}
+        title="Terms and Conditions"
+      >
+        <TermsContent />
+      </Modal>
+      
+      {/* Add Privacy Policy Modal */}
+      <Modal 
+        isOpen={showPrivacyModal} 
+        onClose={() => setShowPrivacyModal(false)}
+        title="Privacy Policy"
+      >
+        <PrivacyPolicyContent />
+      </Modal>
+      
+      {/* Keep existing layout */}
       <div className="grid md:grid-cols-2 gap-16 w-full max-w-6xl mx-auto">
+        {/* Left side stays the same */}
         <div className="space-y-12">
           <div>
             <h1 className="text-5xl font-bold text-black dark:text-white mb-4 leading-tight">
@@ -215,6 +297,8 @@ function LandingPage() {
             ))}
           </div>
         </div>
+        
+        {/* Right side - form container */}
         <div className="relative">
           <div className="absolute inset-0 bg-black dark:bg-white rounded-2xl transform rotate-2"></div>
           <div className="relative bg-white dark:bg-gray-800 p-10 mt-5 rounded-2xl shadow-xl">
@@ -236,7 +320,7 @@ function LandingPage() {
             
             <div className="space-y-6">
               {isForgotPassword ? (
-                // Forgot Password Form
+                // Forgot Password Form stays the same
                 <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
@@ -326,7 +410,7 @@ function LandingPage() {
                   </div>
                 </form>
               ) : (
-                // Normal Authentication Form
+                // Auth Form with added terms checkbox for signup
                 <form onSubmit={handleAuthSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
@@ -380,6 +464,56 @@ function LandingPage() {
                       </button>
                     </div>
                   </div>
+                  
+                  {/* Add Terms and Privacy Policy Checkbox - only shown for signup */}
+                  {isSigningUp && (
+                    <div className="mt-4">
+                      <label className="flex items-start cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={acceptedTerms}
+                          onChange={(e) => setAcceptedTerms(e.target.checked)}
+                          className="w-5 h-5 mt-0.5 rounded border-gray-300 dark:border-gray-600 text-black dark:text-white focus:ring-black dark:focus:ring-white"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                          I accept the{' '}
+                          <a 
+                            href="/terms" 
+                            onClick={(e) => {
+                              // Only open the modal for left-clicks with no modifier keys
+                              if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                                e.preventDefault();
+                                setShowTermsModal(true);
+                              }
+                              // For other clicks, let the browser handle it normally
+                            }}
+                            className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Terms of Service
+                          </a>{' '}
+                          and{' '}
+                          <a 
+                            href="/privacy" 
+                            onClick={(e) => {
+                              // Only open the modal for left-clicks with no modifier keys
+                              if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                                e.preventDefault();
+                                setShowPrivacyModal(true);
+                              }
+                              // For other clicks, let the browser handle it normally
+                            }}
+                            className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Privacy Policy
+                          </a>
+                        </span>
+                      </label>
+                    </div>
+                  )}
                   
                   {errorMessage && (
                     <div className="bg-red-100 dark:bg-red-900/30 border border-red-400 text-red-700 dark:text-red-300 px-4 py-3 rounded">

@@ -6,6 +6,8 @@ import UserProfile from './components/UserProfile';
 import Profile from './components/Profile';
 import { FilterProvider } from './context/FilterContext';
 import { ThemeProvider } from './context/ThemeContext';
+import TermsPage from './components/TermsPage';
+import PrivacyPage from './components/PrivacyPage';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/profile/me" element={<Profile />} /> {/* Current user */}
               <Route path="/profile/:id" element={<UserProfile />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
             </Routes>
           </div>
         </FilterProvider>
