@@ -2,10 +2,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '../api/apiClient';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function LandingPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -13,11 +17,18 @@ function LandingPage() {
   const [statusMessage, setStatusMessage] = useState({ type: '', message: '' });
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [resetCode, setResetCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
   const [resetStep, setResetStep] = useState(1); // 1: Email entry, 2: Code verification & new password
   
   const navigate = useNavigate();
   const api = useApi();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword(!showNewPassword);
+  };
   
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -258,18 +269,27 @@ function LandingPage() {
                         />
                       </div>
                       
-                      <div>
+                      <div className="relative">
                         <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                           New Password
                         </label>
-                        <input
-                          type="password"
-                          value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                          className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all duration-200 outline-none text-lg bg-white dark:bg-gray-700 text-black dark:text-white"
-                          placeholder="Create new password"
-                          required
-                        />
+                        <div className="relative">
+                          <input
+                            type={showNewPassword ? "text" : "password"}
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all duration-200 outline-none text-lg bg-white dark:bg-gray-700 text-black dark:text-white"
+                            placeholder="Create new password"
+                            required
+                          />
+                          <button
+                            type="button"
+                            onClick={toggleNewPasswordVisibility}
+                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none"
+                          >
+                            {showNewPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                          </button>
+                        </div>
                       </div>
                     </>
                   )}
@@ -338,18 +358,27 @@ function LandingPage() {
                     </div>
                   )}
                   
-                  <div>
+                  <div className="relative">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                       Password
                     </label>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all duration-200 outline-none text-lg bg-white dark:bg-gray-700 text-black dark:text-white"
-                      placeholder="••••••••"
-                      required
-                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent transition-all duration-200 outline-none text-lg bg-white dark:bg-gray-700 text-black dark:text-white"
+                        placeholder="••••••••"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none"
+                      >
+                        {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                      </button>
+                    </div>
                   </div>
                   
                   {errorMessage && (
