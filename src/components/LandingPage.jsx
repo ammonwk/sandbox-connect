@@ -8,7 +8,6 @@ import TermsContent from './TermsContent';
 import PrivacyPolicyContent from './PrivacyPolicyContent';
 
 function LandingPage() {
-  // All existing state variables remain the same
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -22,8 +21,6 @@ function LandingPage() {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [resetCode, setResetCode] = useState('');
   const [resetStep, setResetStep] = useState(1);
-  
-  // Add new state variables for terms and privacy
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
@@ -34,7 +31,6 @@ function LandingPage() {
   const navigate = useNavigate();
   const api = useApi();
 
-  // Keep all existing toggle functions
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -105,7 +101,6 @@ function LandingPage() {
     };
   }, [navigate]);
   
-  // Keep all existing handler functions
   const handleResendVerification = async () => {
     try {
       setIsLoading(true);
@@ -148,7 +143,6 @@ function LandingPage() {
         setDisplayName('');
         setAcceptedTerms(false);
       } else {
-        // Existing login code...
         setIsLoading(true);
         const loginResponse = await api.auth.login({ email, password });
         
@@ -166,7 +160,6 @@ function LandingPage() {
         navigate(profileComplete ? '/dashboard' : '/onboarding');
       }
     } catch (error) {
-      // Existing error handling...
       if (error.message === 'User is not confirmed') {
         setErrorMessage(
           <>
@@ -187,7 +180,6 @@ function LandingPage() {
     }
   };
   
-  // Keep all other existing handlers
   const handleForgotPasswordSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
@@ -270,14 +262,14 @@ function LandingPage() {
         {/* Left side stays the same */}
         <div className="space-y-12">
           <div>
-            <h1 className="text-5xl font-bold text-black dark:text-white mb-4 leading-tight">
+            <h1 className="text-5xl font-bold text-black dark:text-white mb-4 mt-6 leading-tight">
               Welcome to
               <div className="block bg-black dark:bg-white text-white dark:text-black px-14 py-3 mt-3 -ml-1 transform -skew-x-12">
                 Sandbox Connect
               </div>
             </h1>
             <p className="text-gray-700 dark:text-gray-300 text-xl">
-              Find your team better, faster.
+              Build Teams, Launch Dreams.
             </p>
           </div>
           <div className="space-y-8">
@@ -587,9 +579,6 @@ function LandingPage() {
                   )}
                 </form>
               )}
-              <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-                By continuing, you agree to our Terms of Service and Privacy Policy
-              </p>
             </div>
           </div>
         </div>
