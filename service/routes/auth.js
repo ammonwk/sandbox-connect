@@ -84,10 +84,11 @@ router.get('/verify', async (req, res) => {
     
     if (!user) {
       // Create a new user entry in our database only if they don't exist
+      console.log("Verify", userInfo.user)
       user = new User({
         cognitoId: userInfo.user.sub,
         email,
-        name: userInfo.user.name || userInfo.user['custom:name'] || email.split('@')[0],
+        name: userInfo.user.preferred_username || email.split('@')[0],
         photo: userInfo.user.picture || null,
         role: userInfo.user['custom:role'] || 'Undecided', // Changed from 'member' to match ROLES in frontend
         contact: {
@@ -182,10 +183,11 @@ router.post('/login', async (req, res) => {
     
     if (!user) {
       // Create new user with schema-compliant fields
+      console.log("Login", userInfo.user)
       user = new User({
         cognitoId: userInfo.user.sub,
         email,
-        name: userInfo.user.name || userInfo.user['custom:name'] || email.split('@')[0],
+        name: userInfo.user.preferred_username || email.split('@')[0],
         photo: userInfo.user.picture || null,
         role: userInfo.user['custom:role'] || 'Undecided', // Changed from 'member' to match ROLES in frontend
         contact: {
