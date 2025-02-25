@@ -1,6 +1,6 @@
-# Sandbox Headstart
+# Sandbox Connect
 
-Sandbox Headstart is a web application designed to help students in the Sandbox program efficiently form startup teams. The platform enables users to create profiles showcasing their skills, interests, and availability while also allowing them to browse and connect with potential teammates. 
+Sandbox Connect is a web application designed to help students in the Sandbox program efficiently form startup teams. The platform enables users to create profiles showcasing their skills, interests, and availability while also allowing them to browse and connect with potential teammates. 
 
 ## 🚀 Features
 - **User Profiles:** Display skills, interests, and availability.
@@ -21,12 +21,12 @@ Sandbox Headstart is a web application designed to help students in the Sandbox 
 - [ ] Add "Support" page & Feedback options
 
 ## 🛠️ Installation & Setup
-To get started with Sandbox Headstart on your local machine, follow these steps:
+To get started with Sandbox Connect on your local machine, follow these steps:
 
 ### 1️⃣ Clone the Repository
 ```
-git clone https://github.com/ammonwk/sandbox-headstart.git
-cd sandbox-headstart
+git clone https://github.com/ammonwk/sandbox-connect.git
+cd sandbox-connect
 ```
 
 ### 2️⃣ Install Dependencies

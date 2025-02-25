@@ -46,7 +46,7 @@ function UserCard({ user }) {
 
   return (
     <div 
-      onClick={() => navigate(`/sandbox-headstart/profile/${user._id || user.id}`)} 
+      onClick={() => navigate(`/profile/${user._id || user.id}`)} 
       className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 dark:border-gray-700 cursor-pointer hover:border-gray-200 dark:hover:border-gray-600"
     >
       <div className="p-6">

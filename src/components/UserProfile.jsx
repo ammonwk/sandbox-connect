@@ -58,7 +58,7 @@ function UserProfile() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">User not found</h2>
-          <Link to="/sandbox-headstart/dashboard" className="mt-4 inline-flex items-center text-black dark:text-white hover:underline">
+          <Link to="/dashboard" className="mt-4 inline-flex items-center text-black dark:text-white hover:underline">
             <FiArrowLeft className="mr-2" /> Back to Dashboard
           </Link>
         </div>
@@ -72,7 +72,7 @@ function UserProfile() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="container mx-auto px-4 py-4">
-          <Link to="/sandbox-headstart/dashboard" className="inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
+          <Link to="/dashboard" className="inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
             <FiArrowLeft className="mr-2" /> Back to Dashboard
           </Link>
         </div>

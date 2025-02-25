@@ -65,12 +65,12 @@ try {
     .catch(err => logger.error('MongoDB connection error:', { error: err.message }));
 
   // Mount API routes
-  app.use('/sandbox-headstart/api/auth', authRoutes);
-  app.use('/sandbox-headstart/api/users', userRoutes);
+  app.use('/api/auth', authRoutes);
+  app.use('/api/users', userRoutes);
 
   // Serve static files
-  app.use('/sandbox-headstart', express.static(path.join(__dirname, '../dist')));
-  app.get('/sandbox-headstart/*', (req, res) => {
+  app.use('', express.static(path.join(__dirname, '../dist')));
+  app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
   });
 

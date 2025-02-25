@@ -1,5 +1,5 @@
 // src/api/apiClient.js
-const API_BASE_URL = "http://localhost:7000/sandbox-headstart/api";
+const API_BASE_URL = "http://localhost:7000/api";
 
 // Create a reusable API client that handles auth tokens
 export const createApiClient = () => {
@@ -118,7 +118,7 @@ export const createApiClient = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('idToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/sandbox-headstart/';
+        window.location.href = '/';
       }
     },
     

@@ -15,25 +15,25 @@ function Navbar({ searchTerm, setSearchTerm, handleLogout }) {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link to="/sandbox-headstart/dashboard" className="text-xl font-bold text-black dark:text-white">
-              Sandbox Headstart
+            <Link to="/dashboard" className="text-xl font-bold text-black dark:text-white">
+              Sandbox Connect
             </Link>
             <div className="hidden md:block ml-10">
               <div className="flex items-baseline space-x-4">
                 <Link
-                  to="/sandbox-headstart/dashboard"
+                  to="/dashboard"
                   className="text-black dark:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Discover
                 </Link>
                 <Link
-                  to="/sandbox-headstart/dashboard"
+                  to="/dashboard"
                   className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Saved Profiles
                 </Link>
                 <Link
-                  to="/sandbox-headstart/profile/me"
+                  to="/profile/me"
                   className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   My Profile
@@ -86,13 +86,13 @@ function Navbar({ searchTerm, setSearchTerm, handleLogout }) {
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 dark:ring-white dark:ring-opacity-10">
                   <Link
-                    to="/sandbox-headstart/profile/me"
+                    to="/profile/me"
                     className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     Your Profile
                   </Link>
                   <Link
-                    to="/sandbox-headstart/dashboard"
+                    to="/dashboard"
                     className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     Settings

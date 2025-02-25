@@ -14,11 +14,11 @@ function App() {
         <FilterProvider>
           <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
             <Routes>
-              <Route path="sandbox-headstart/" element={<LandingPage />} />
-              <Route path="sandbox-headstart/onboarding" element={<Onboarding />} />
-              <Route path="sandbox-headstart/dashboard" element={<Dashboard />} />
-              <Route path="/sandbox-headstart/profile/me" element={<Profile />} /> {/* Current user */}
-              <Route path="sandbox-headstart/profile/:id" element={<UserProfile />} />
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/profile/me" element={<Profile />} /> {/* Current user */}
+              <Route path="/profile/:id" element={<UserProfile />} />
             </Routes>
           </div>
         </FilterProvider>

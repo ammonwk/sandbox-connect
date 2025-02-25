@@ -40,7 +40,7 @@ const Profile = () => {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
-      navigate('/sandbox-headstart/');
+      navigate('/');
       return;
     }
     fetchProfile();
@@ -247,7 +247,7 @@ const Profile = () => {
       <div className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <Link
-            to="/sandbox-headstart/dashboard"
+            to="/dashboard"
             className="inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
           >
             <FiArrowLeft className="mr-2" /> Back to Dashboard
@@ -570,7 +570,7 @@ const Profile = () => {
           <div className="p-8">
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                onClick={() => navigate('/sandbox-headstart/dashboard')}
+                onClick={() => navigate('/dashboard')}
                 className="flex-1 bg-black dark:bg-white text-white dark:text-black px-6 py-3 rounded-lg hover:bg-gray-900 dark:hover:bg-gray-100 transition-colors duration-200"
               >
                 Return to Dashboard

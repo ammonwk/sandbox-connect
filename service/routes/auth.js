@@ -102,10 +102,10 @@ router.get('/verify', async (req, res) => {
     }
     
     // Redirect the user to the login page with a success message
-    res.redirect('/sandbox-headstart/?verified=true');
+    res.redirect('/?verified=true');
   } catch (error) {
     logger.error('Verification error', { error: error.message });
-    res.redirect('/sandbox-headstart/?verified=false&error=' + encodeURIComponent(error.message));
+    res.redirect('/?verified=false&error=' + encodeURIComponent(error.message));
   }
 });
 
@@ -176,7 +176,6 @@ router.post('/login', async (req, res) => {
     
     if (!user) {
       // Create new user with schema-compliant fields
-      console.log("Login", userInfo.user)
       user = new User({
         cognitoId: userInfo.user.sub,
         email,

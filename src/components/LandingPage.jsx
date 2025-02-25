@@ -33,7 +33,7 @@ function LandingPage() {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token) {
-      navigate('/sandbox-headstart/onboarding');
+      navigate('/onboarding');
     }
     
     const urlParams = new URLSearchParams(window.location.search);
@@ -103,7 +103,7 @@ function LandingPage() {
                             user.role;
         
         // Navigate to dashboard if profile is complete, otherwise to onboarding
-        navigate(profileComplete ? '/sandbox-headstart/dashboard' : '/sandbox-headstart/onboarding');
+        navigate(profileComplete ? '/dashboard' : '/onboarding');
       }
     } catch (error) {
       if (error.message === 'User is not confirmed') {
@@ -191,7 +191,7 @@ function LandingPage() {
             <h1 className="text-5xl font-bold text-black dark:text-white mb-4 leading-tight">
               Welcome to
               <div className="block bg-black dark:bg-white text-white dark:text-black px-14 py-3 mt-3 -ml-1 transform -skew-x-12">
-                Sandbox Headstart
+                Sandbox Connect
               </div>
             </h1>
             <p className="text-gray-700 dark:text-gray-300 text-xl">
@@ -200,9 +200,9 @@ function LandingPage() {
           </div>
           <div className="space-y-8">
             {[
-              { num: 1, text: "Describe your perfect team" },
-              { num: 2, text: "Connect with them" },
-              { num: 3, text: "Hit the ground running" }
+              { num: 1, text: "Introduce yourself" },
+              { num: 2, text: "Connect with other founders" },
+              { num: 3, text: "Get creating!" }
             ].map((step) => (
               <div key={step.num} className="flex items-center space-x-6 group">
                 <span className="w-12 h-12 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-xl font-semibold group-hover:bg-blue-600 dark:group-hover:bg-blue-400 transition-all duration-300">

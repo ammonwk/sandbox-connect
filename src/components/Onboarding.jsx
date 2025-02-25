@@ -29,7 +29,7 @@ function Onboarding() {
       setLoading(true);
       const token = localStorage.getItem('accessToken');
       if (!token) {
-        navigate('/sandbox-headstart/');
+        navigate('/');
         return;
       }
       try {
@@ -46,7 +46,7 @@ function Onboarding() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('idToken');
         localStorage.removeItem('refreshToken');
-        navigate('/sandbox-headstart/');
+        navigate('/');
       } finally {
         setLoading(false);
       }
@@ -140,7 +140,7 @@ function Onboarding() {
         teamNeeds,
         contact
       }, photo);
-      navigate('/sandbox-headstart/dashboard');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message || 'Error completing profile');
     } finally {
